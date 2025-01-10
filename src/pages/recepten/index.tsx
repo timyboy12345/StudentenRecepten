@@ -1,5 +1,3 @@
-import { useState, useEffect} from 'react'
-
 import RecipeCard from '@/components/cards/RecipeCard';
 import {usePages} from "@/lib/directus";
 

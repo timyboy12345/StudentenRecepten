@@ -1,4 +1,4 @@
-import {createDirectus, readItem, readItems, rest} from '@directus/sdk';
+import {createDirectus, readItems, rest} from '@directus/sdk';
 import useSWR from "swr";
 
 type Global = {

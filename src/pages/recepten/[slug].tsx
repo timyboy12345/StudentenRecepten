@@ -1,7 +1,4 @@
-import { useState, useEffect} from 'react'
-
-import RecipeCard from '@/components/cards/RecipeCard';
-import {usePage, usePages} from "@/lib/directus";
+import {usePage} from "@/lib/directus";
 import {useRouter} from "next/router";
 import DirectusImage from "@/components/DirectusImage";
 
