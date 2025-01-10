@@ -10,25 +10,38 @@ type Author = {
     name: string
 }
 
-type Ingredients = {
+type Ingredient = {
     title: string;
     content: string;
     slug: string;
 }
 
 type Recipe = {
-    image: string;
+    image: any;
     title: string;
     author: Author;
     content: string;
     published_date: string
     slug: string;
+    ingredients: RecipeIngredient[];
+    steps: Step[];
+}
+
+type RecipeIngredient = {
+    ingredient: Ingredient;
+    amount: number;
+    unit: string;
+}
+
+type Step = {
+    image: any;
+    content: string;
 }
 
 type Schema = {
     recipes: Recipe[];
     global: Global;
-    ingredients: Ingredients[];
+    ingredients: Ingredient[];
 }
 
 const directus = createDirectus<Schema>('https://data.arendz.nl').with(rest());
@@ -40,7 +53,7 @@ const recipesFetcher = query => directus
 const recipeFetcher = query => directus
     .request(readItems('recipes',
         {
-            fields: ['*', 'image.*', 'steps.*', 'ingredients.*'],
+            fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*'],
             filter: {
                 'slug': query
             }
