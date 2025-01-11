@@ -9,7 +9,7 @@ export default function Layout({children}) {
         <>
             <Navigation/>
 
-            <div className='container mx-auto mt-8 mb-4'>
+            <div className='mx-4 sm:mx-8 md:container md:mx-auto mt-4 md:mt-8 mb-4'>
                 <div className='grid gap-8 md:grid-cols-3'>
                     <main className='md:col-span-2'>{children}</main>
 
