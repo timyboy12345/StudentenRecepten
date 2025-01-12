@@ -18,7 +18,7 @@ function Recipes() {
             {isError && <Error>{isError}</Error>}
             {isLoading && <Loader/>}
             {recipes && <div className='grid grid-cols-2 gap-4 lg:grid-cols-4'>
-                {recipes.map((object, i) => <RecipeCard key={i} recipe={object}/>)}
+                {recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe}/>)}
             </div>}
         </>
     )

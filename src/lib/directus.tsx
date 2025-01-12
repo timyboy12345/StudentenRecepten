@@ -27,7 +27,7 @@ type Recipe = {
     steps: Step[];
     categories: {
         recipe_id: Recipe | String;
-        recipe_category_id: Category | string;
+        recipe_categories_id: Category | string;
         id: string;
     }[];
     servings: number;
@@ -143,4 +143,4 @@ function useRecipe(slug) {
     }
 }
 
-export {directus, Recipe, useRecipe, useRecipes, useCategories, useCategory};
+export {directus, Recipe, Category, useRecipe, useRecipes, useCategories, useCategory};

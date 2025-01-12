@@ -23,8 +23,8 @@ function Index() {
             {isError && <Error>{JSON.stringify(isError)}</Error>}
             {isLoading && <Loader/>}
 
-            {recipes && <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
-                {recipes.map((object, i) => <RecipeCard key={i} recipe={object}/>)}
+            {recipes && <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                {recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe}/>)}
             </div>}
         </>
     )

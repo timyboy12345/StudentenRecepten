@@ -30,8 +30,8 @@ function Recipe() {
             <p dangerouslySetInnerHTML={toHtml(category.content)} className='text-gray-600'/>
 
             <h2 className='font-serif text-xl mt-4 mb-2'>Recepten in deze categorie</h2>
-            <div className='grid grid-cols-2 lg:grid-cols-4'>
-                {category.recipes.map((object, i) => <RecipeCard key={i} recipe={object.recipes_id}/>)}
+            <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                {category.recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe.recipes_id}/>)}
             </div>
 
             {/*{JSON.stringify(category)}*/}

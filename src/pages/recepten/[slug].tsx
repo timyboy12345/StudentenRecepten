@@ -5,6 +5,7 @@ import Error from "@/components/Error";
 import Loader from "@/components/Loader";
 import Head from "next/head";
 import {alterIngredientAmount} from "@/lib/ingredients";
+import Link from "next/link";
 
 function Recipe() {
     const router = useRouter()
@@ -78,11 +79,11 @@ function Recipe() {
                 <div className='px-4 border-l-8 border-red-800'>
                     <h2 className='font-serif text-xl mb-2'>Ingrediënten</h2>
 
-                    {recipe.ingredients.filter((o) => !o.optional).map((object, i) => <div
+                    {recipe.ingredients.filter((o) => !o.optional).map((ingredient, i) => <div
                         className='whitespace-nowrap' key={i}>
                         <div className='inline-block text-red-900 text-right min-w-16 mr-1'>
-                            {alterIngredientAmount(object.unit, object.amount)}</div>
-                        {object.ingredient.title}
+                            {alterIngredientAmount(ingredient.unit, ingredient.amount)}</div>
+                        {ingredient.ingredient.title}
                     </div>)}
                 </div>
 
@@ -90,11 +91,11 @@ function Recipe() {
                     <div
                         className='px-4 border-l-8 border-red-800 border-opacity-60 opacity-60 hover:opacity-100 transition duration-100'>
                         <h2 className='font-serif text-xl mb-2 mt-4'>Optionele Ingrediënten</h2>
-                        {recipe.ingredients.filter((o) => o.optional).map((object, i) => <div
+                        {recipe.ingredients.filter((o) => o.optional).map((ingredient, i) => <div
                             className='whitespace-nowrap' key={i}>
                             <div className='inline-block text-red-900 text-right min-w-16 mr-1'>
-                                {alterIngredientAmount(object.unit, object.amount)}</div>
-                            {object.ingredient.title}
+                                {alterIngredientAmount(ingredient.unit, ingredient.amount)}</div>
+                            {ingredient.ingredient.title}
                         </div>)}
                     </div>
                 }
@@ -103,11 +104,22 @@ function Recipe() {
             <div className='border-l-8 border-red-800 my-4 p-4'>
                 <h2 className='font-serif text-xl mb-2'>Stappen</h2>
                 <div className='border-red-800 my-4'>
-                    {recipe.steps.map((object, i) => <div key={i}>
-                        <span className='opacity-60'>{i + 1}.</span> {object.content}
+                    {recipe.steps.map((r, i) => <div key={i}>
+                        <span className='opacity-60'>{i + 1}.</span> {r.content}
                     </div>)}
                 </div>
             </div>
+
+            {recipe.categories.length > 0 && (
+                <div className='my-4'>
+                    <h2 className='font-serif text-xl mb-2'>Categorieën</h2>
+                    <div className='flex flex-row gap-2'>
+                        {recipe.categories.map((category, i) => <div key={i}>
+                            <Link href={'/categorieen/' + category.recipe_categories_id.slug} className={'bg-red-800 border border-red-800 text-white py-1 px-2 hover:bg-transparent hover:text-red-800 transition duration-2   00'}>{category.recipe_categories_id.title}</Link>
+                        </div>)}
+                    </div>
+                </div>
+            )}
 
             {/*{JSON.stringify(recipe)}*/}
         </>
