@@ -21,6 +21,11 @@ const Navigation = () => {
                                 </Link>
                             </li>
                             <li>
+                                <Link href="/categorieen">
+                                    <p>Categorieën</p>
+                                </Link>
+                            </li>
+                            <li>
                                 <Link href="/over-ons">
                                     <p>Over Ons</p>
                                 </Link>

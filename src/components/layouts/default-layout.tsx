@@ -1,10 +1,8 @@
-// import Navbar from './navbar'
-// import Footer from './footer'
-
 import Navigation from "@/components/layouts/navigation";
 import Sidebar from "@/components/layouts/sidebar";
 
 export default function Layout({children}) {
+
     return (
         <>
             <Navigation/>

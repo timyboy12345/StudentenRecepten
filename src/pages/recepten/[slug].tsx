@@ -1,14 +1,18 @@
-import {usePage} from "@/lib/directus";
+import {useRecipe} from "@/lib/directus";
 import {useRouter} from "next/router";
 import DirectusImage from "@/components/DirectusImage";
+import Error from "@/components/Error";
+import Loader from "@/components/Loader";
 
 function Recipe() {
     const router = useRouter()
-    const {recipe, isError, isLoading} = usePage(router.query.slug)
+    const {recipe, isError, isLoading} = useRecipe(router.query.slug)
 
-    if (isError) return (<div>ERROR</div>)
-    if (isLoading) return (<div>LOADING</div>)
-    if (!recipe) return (<div>ERROR 2</div>)
+    if (isError) return (<Error>{isError}</Error>)
+    if (isLoading) return (<Loader/>)
+
+    // TODO: Fix the weird error between having loaded the item and returning the item
+    if (!recipe) return (<Loader/>)
 
     function toHtml(cont) {
         return {__html: cont}
