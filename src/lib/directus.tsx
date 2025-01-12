@@ -29,13 +29,17 @@ type Recipe = {
         recipe_id: Recipe | String;
         recipe_category_id: Category | string;
         id: string;
-    }[]
+    }[];
+    servings: number;
+    cooktime: number;
+    oventime: number;
 }
 
 type RecipeIngredient = {
     ingredient: Ingredient;
     amount: number;
     unit: string;
+    optional: boolean;
 }
 
 type Step = {
@@ -84,6 +88,8 @@ const categoryFetcher = query => directus
 const recipesFetcher = query => directus
     .request(readItems('recipes',
         {fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'categories.recipe_categories_id.*']}))
+
+// TODO: Disable SWRs revalidateOnFocus
 
 // @ts-ignore
 const recipeFetcher = query => directus

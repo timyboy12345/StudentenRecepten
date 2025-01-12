@@ -19,8 +19,8 @@ export default function Sidebar() {
 
             {isLoading && <Loader/>}
             {isError && <Error>{isError}</Error>}
-            {categories && <div className='grid grid-cols-2 gap-4'>
-                {categories.map((category, i) => <CategoryCard key={i} category={category}/>)}
+            {categories && <div className='grid lg:grid-cols-2 gap-4'>
+                {categories.map((category, i) => <CategoryCard hideDescription={true} key={i} category={category}/>)}
             </div>}
         </div>
     )

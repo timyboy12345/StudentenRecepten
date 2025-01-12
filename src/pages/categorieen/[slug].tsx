@@ -3,6 +3,7 @@ import {useRouter} from "next/router";
 import DirectusImage from "@/components/DirectusImage";
 import RecipeCard from "@/components/cards/RecipeCard";
 import Loader from "@/components/Loader";
+import Head from "next/head";
 
 function Recipe() {
     const router = useRouter()
@@ -20,7 +21,11 @@ function Recipe() {
 
     return (
         <>
-            {category.image && <DirectusImage height='h-64' image={category.image}/>}
+            <Head>
+                <title>{category?.title} - Categorie - StudentenRecepten</title>
+            </Head>
+
+            {category.image && <DirectusImage width='850' height='350' tailwindHeight='h-64' image={category.image}/>}
             <h1 className='font-serif text-2xl mb-2 mt-4'>{category.title}</h1>
             <p dangerouslySetInnerHTML={toHtml(category.content)} className='text-gray-600'/>
 

@@ -2,12 +2,16 @@ import {useRecipes} from "@/lib/directus";
 import RecipeCard from "@/components/cards/RecipeCard";
 import Loader from "@/components/Loader";
 import Error from "@/components/Error";
+import Head from "next/head";
 
 function Index() {
     const {recipes, isError, isLoading} = useRecipes()
 
     return (
         <>
+            <Head>
+                <title>StudentenRecepten - Goedkope recepten voor elke student</title>
+            </Head>
             <div className='text-center my-16'>
                 <h1 className='font-serif text-2xl'>Welkom bij StudentenRecepten</h1>
                 <p className='opacity-60'>Wat ga jij vandaag eten?</p>
@@ -19,7 +23,7 @@ function Index() {
             {isError && <Error>{JSON.stringify(isError)}</Error>}
             {isLoading && <Loader/>}
 
-            {recipes && <div className='grid grid-cols-2 lg:grid-cols-4'>
+            {recipes && <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
                 {recipes.map((object, i) => <RecipeCard key={i} recipe={object}/>)}
             </div>}
         </>
