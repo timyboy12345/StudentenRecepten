@@ -17,7 +17,7 @@ function Recipes() {
             </Head>
 
             <h1 className='font-serif text-2xl mb-4 mt-4'>Categorieën</h1>
-            {categories && <div className='grid grid-cols-2 gap-4 lg:grid-cols-4'>
+            {categories && <div className='grid grid-cols-2 gap-4 lg:grid-cols-3'>
                 {categories.map((category, i) => <CategoryCard key={i} category={category}/>)}
             </div>}
         </>

@@ -5,7 +5,7 @@ function Card({image, title, description, link, subtitle, cropType}) {
     if (link) return (
         <Link href={link}
               className="w-full border border-gray-100 bg-white cursor-pointer hover:bg-gray-100 transition duration-100">
-            {image && <DirectusImage cropType={cropType} image={image}/>}
+            {image && <DirectusImage width={500} height={300} cropType={cropType} image={image}/>}
 
             <div className='p-4'>
                 {subtitle && <div className='text-xs opacity-60'>{subtitle}</div>}

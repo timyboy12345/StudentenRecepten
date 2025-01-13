@@ -5,9 +5,10 @@ import Error from "@/components/Error";
 import Head from "next/head";
 import {useState} from "react";
 import {useRouter} from "next/router";
+import Link from "next/link";
 
 function Index() {
-    const {recipes, isError, isLoading} = useRecipes()
+    const {recipes, isError, isLoading} = useRecipes({limit: 6})
 
     const router = useRouter()
     const [query, setQuery] = useState('');
@@ -43,6 +44,8 @@ function Index() {
             {recipes && <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
                 {recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe}/>)}
             </div>}
+
+            <Link className={'underline hover:no-underline text-gray-600 float-right mt-2 text-sm block'} href={'/recepten'}>Bekijk alle Recepten</Link>
         </>
     )
 }

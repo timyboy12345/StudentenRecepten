@@ -7,7 +7,7 @@ import IngredientCard from "@/components/cards/IngredientCard";
 
 export default function Sidebar() {
     const {categories, isError, isLoading} = useCategories();
-    const {ingredients, isIngredientsError, isIngredientsLoading} = useIngredients();
+    const {ingredients, isIngredientsError, isIngredientsLoading} = useIngredients({filter: {'featured': {'_eq': 'true'}}});
 
     return (
         <div>

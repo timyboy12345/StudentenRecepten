@@ -1,6 +1,6 @@
 {
   "name": "studentenrecepten",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -11,6 +11,7 @@
   "dependencies": {
     "@directus/sdk": "^18.0.3",
     "next": "15.1.4",
+    "object-hash": "^3.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "swr": "^2.3.0"
