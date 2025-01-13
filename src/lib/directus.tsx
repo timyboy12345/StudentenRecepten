@@ -14,6 +14,7 @@ type Ingredient = {
     title: string;
     content: string;
     slug: string;
+    image: any;
 }
 
 type Recipe = {
@@ -102,6 +103,11 @@ const recipeFetcher = query => directus
         }))
     .then((res) => res.length > 0 ? res[0] : Promise.reject(res))
 
+// @ts-ignore
+const ingredientsFetcher = query => directus
+    .request(readItems('ingredients',
+        {fields: ['*', 'image.*']}))
+
 function useCategories() {
     const {data, error, isLoading} = useSWR<Category[]>('recipe_categories', categoriesFetcher)
 
@@ -143,4 +149,14 @@ function useRecipe(slug) {
     }
 }
 
-export {directus, Recipe, Category, useRecipe, useRecipes, useCategories, useCategory};
+function useIngredients() {
+    const {data, error, isLoading} = useSWR<Ingredient[]>('ingredients', ingredientsFetcher)
+
+    return {
+        ingredients: data,
+        isLoading,
+        isError: error
+    }
+}
+
+export {directus, Recipe, Category, useRecipe, useRecipes, useCategories, useCategory, useIngredients};
