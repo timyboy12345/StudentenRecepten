@@ -11,7 +11,14 @@ function Recipe() {
     const router = useRouter()
     const {recipe, isError, isLoading} = useRecipe(router.query.slug)
 
-    if (isError) return (<Error>{isError}</Error>)
+    if (isError) return (isError === 404 ? <div className={'text-center my-8'}>
+        <h1 className={'text-2xl font-serif text-red-800'}>Recept niet gevonden</h1>
+        <p>Heb je de URL goed getypt, of heb je een ongeldige link gevolgd?</p>
+        <div className={'flex gap-4 justify-center mt-8'}>
+            <Link className={'underline hover:no-underline'} href={'/'}>Home</Link>
+            <Link className={'underline hover:no-underline'} href={'/recepten'}>Alle Recepten</Link>
+        </div>
+    </div> : <Error>{isError}</Error>)
     if (isLoading) return (<Loader/>)
 
     // TODO: Fix the weird error between having loaded the item and returning the item
@@ -73,7 +80,7 @@ function Recipe() {
                 </div>
             </div>
 
-            <p dangerouslySetInnerHTML={toHtml(recipe.content)} className='text-gray-600'/>
+            <p dangerouslySetInnerHTML={toHtml(recipe.content)} className='prose max-w-none'/>
 
             <div className='my-4 mb-8'>
                 <div className='px-4 border-l-8 border-red-800'>
@@ -115,7 +122,8 @@ function Recipe() {
                     <h2 className='font-serif text-xl mb-2'>Categorieën</h2>
                     <div className='flex flex-row gap-2'>
                         {recipe.categories.map((category, i) => <div key={i}>
-                            <Link href={'/categorieen/' + category.recipe_categories_id.slug} className={'bg-red-800 border border-red-800 text-white py-1 px-2 hover:bg-transparent hover:text-red-800 transition duration-2   00'}>{category.recipe_categories_id.title}</Link>
+                            <Link href={'/categorieen/' + category.recipe_categories_id.slug}
+                                  className={'bg-red-800 border border-red-800 text-white py-1 px-2 hover:bg-transparent hover:text-red-800 transition duration-2   00'}>{category.recipe_categories_id.title}</Link>
                         </div>)}
                     </div>
                 </div>

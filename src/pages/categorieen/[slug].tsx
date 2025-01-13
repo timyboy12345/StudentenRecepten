@@ -27,7 +27,7 @@ function Recipe() {
 
             {category.image && <DirectusImage width='850' height='350' tailwindHeight='h-64' image={category.image}/>}
             <h1 className='font-serif text-2xl mb-2 mt-4'>{category.title}</h1>
-            <p dangerouslySetInnerHTML={toHtml(category.content)} className='text-gray-600'/>
+            <p dangerouslySetInnerHTML={toHtml(category.content)} className='prose max-w-none'/>
 
             <h2 className='font-serif text-xl mt-4 mb-2'>Recepten in deze categorie</h2>
             <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>

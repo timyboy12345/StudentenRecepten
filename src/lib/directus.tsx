@@ -101,7 +101,7 @@ const recipeFetcher = query => directus
                 'slug': query
             }
         }))
-    .then((res) => res.length > 0 ? res[0] : Promise.reject(res))
+    .then((res) => res.length > 0 ? res[0] : Promise.reject(404))
 
 // @ts-ignore
 const ingredientsFetcher = query => directus
