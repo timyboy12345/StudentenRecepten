@@ -90,7 +90,7 @@ const categoryFetcher = query => directus
                 'slug': query
             }
         }))
-    .then((res) => res.length > 0 ? res[0] : Promise.reject(res))
+    .then((res) => res.length > 0 ? res[0] : Promise.reject(404))
 
 // @ts-ignore
 const recipesFetcher = query => directus
@@ -139,7 +139,7 @@ const ingredientFetcher = (slug) => directus
                 'slug': slug
             }
         }))
-    .then((res) => res.length > 0 ? res[0] : Promise.reject(res))
+    .then((res) => res.length > 0 ? res[0] : Promise.reject(404))
 
 
 function useCategories(query = {}) {

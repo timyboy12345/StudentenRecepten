@@ -1,2 +1,3 @@
 /recepten/:slug /recepten/[slug] 200
 /categorieen/:slug /categorieen/[slug] 200
+/ingredienten/:slug /ingredienten/[slug] 200

@@ -4,12 +4,21 @@ import DirectusImage from "@/components/DirectusImage";
 import RecipeCard from "@/components/cards/RecipeCard";
 import Loader from "@/components/Loader";
 import Head from "next/head";
+import Link from "next/link";
+import Error from "@/components/Error";
 
 function Recipe() {
     const router = useRouter()
     const {category, isError, isLoading} = useCategory(router.query.slug)
 
-    if (isError) return (<div>ERROR</div>)
+    if (isError) return (isError === 404 ? <div className={'text-center my-8'}>
+        <h1 className={'text-2xl font-serif text-red-800'}>Recept niet gevonden</h1>
+        <p>Heb je de URL goed getypt, of heb je een ongeldige link gevolgd?</p>
+        <div className={'flex gap-4 justify-center mt-8'}>
+            <Link className={'underline hover:no-underline'} href={'/'}>Home</Link>
+            <Link className={'underline hover:no-underline'} href={'/recepten'}>Alle Recepten</Link>
+        </div>
+    </div> : <Error>{isError}</Error>)
     if (isLoading) return (<Loader/>)
 
     // TODO: Fix the weird error between having loaded the item and returning the item
