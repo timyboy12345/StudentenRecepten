@@ -2,7 +2,7 @@ import DirectusImage from "@/components/DirectusImage";
 import Head from "next/head";
 import {alterIngredientAmount} from "@/lib/ingredients";
 import Link from "next/link";
-import {createDirectus, readItems, rest} from "@directus/sdk";
+import {getRecipe} from "@/lib/directus";
 
 function Recipe({ recipe }) {
     function toHtml(content: string) {
@@ -12,7 +12,7 @@ function Recipe({ recipe }) {
     return (
         <>
             <Head>
-                <title>{recipe.title} - Recept - StudentenRecepten</title>
+                <title>{recipe.title + ' - Recept - StudentenRecepten'}</title>
             </Head>
 
             {recipe.image && <DirectusImage width='850' height='360' tailwindHeight='h-64' image={recipe.image}/>}
@@ -116,40 +116,19 @@ function Recipe({ recipe }) {
 }
 
 export async function getStaticPaths() {
-    // Call an external API endpoint to get posts
     const res = await fetch('https://data.arendz.nl/items/recipes')
     const posts = await res.json()
 
-    // Get the paths we want to prerender based on posts
-    // In production environments, prerender all pages
-    // (slower builds, but faster initial page load)
     const paths = posts.data.map((post) => ({
         params: { slug: post.slug },
     }))
 
-    // { fallback: false } means other routes should 404
     return { paths, fallback: false }
 }
 
-// @ts-ignore
 export const getStaticProps = (async (context) => {
     const slug = context.params.slug;
-
-    const directus = createDirectus('https://data.arendz.nl').with(rest());
-
-    // @ts-ignore
-    const recipe = await directus
-        .request(readItems('recipes',
-            {
-                fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'categories.recipe_categories_id.*'],
-                filter: {
-                    'slug': slug
-                },
-                limit: 1
-            }))
-        .then((d) => {
-            return d[0];
-        });
+    const recipe = await getRecipe(slug);
 
     return { props: {recipe: recipe }}
 })

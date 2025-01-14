@@ -1,6 +1,7 @@
 import {createDirectus, readItems, rest} from '@directus/sdk';
 import useSWR from "swr";
 import * as hash from 'object-hash';
+import {PageNotFoundError} from "next/dist/shared/lib/utils";
 
 type Global = {
     title: string;
@@ -207,4 +208,50 @@ function useIngredient(slug) {
     }
 }
 
-export {directus, Recipe, Category, useRecipe, useRecipes, useCategories, useCategory, useIngredients, useIngredient};
+async function getCategory(slug) {
+    // @ts-ignore
+    return await directus
+        .request(readItems('recipe_categories',
+            {
+                fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'recipes.recipes_id.*', 'recipes.recipes_id.image.*'],
+                filter: {
+                    'slug': slug
+                }
+            }))
+        .then((d) => {
+            return d.length > 0 ? d[0] : new PageNotFoundError("Categorie niet gevonden");
+        });
+}
+
+async function getIngredient(slug) {
+    // @ts-ignore
+    return await directus
+        .request(readItems('ingredients',
+            {
+                fields: ['*', 'image.*'],
+                filter: {
+                    'slug': slug
+                }
+            }))
+        .then((d) => {
+            return d.length > 0 ? d[0] : new PageNotFoundError("Ingredient niet gevonden");
+        });
+}
+
+async function getRecipe(slug) {
+    // @ts-ignore
+    return await directus
+        .request(readItems('recipes',
+            {
+                fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'categories.recipe_categories_id.*'],
+                filter: {
+                    'slug': slug
+                },
+                limit: 1
+            }))
+        .then((d) => {
+            return d.length > 0 ? d[0] : new PageNotFoundError("Recept niet gevonden");
+        });
+}
+
+export {directus, Recipe, Category, useRecipe, useRecipes, useCategories, useCategory, useIngredients, useIngredient, getCategory, getRecipe, getIngredient};
