@@ -1,25 +1,23 @@
-import {useRecipe} from "@/lib/directus";
-import {useRouter} from "next/router";
 import DirectusImage from "@/components/DirectusImage";
-import Error from "@/components/Error";
 import Loader from "@/components/Loader";
 import Head from "next/head";
 import {alterIngredientAmount} from "@/lib/ingredients";
 import Link from "next/link";
+import {createDirectus, readItems, rest} from "@directus/sdk";
 
-function Recipe() {
-    const router = useRouter()
-    const {recipe, isError, isLoading} = useRecipe(router.query.slug)
+function Recipe({ recipe }) {
+    // const router = useRouter()
+    // const {recipe, isError, isLoading} = useRecipe(router.query.slug)
 
-    if (isError) return (isError === 404 ? <div className={'text-center my-8'}>
-        <h1 className={'text-2xl font-serif text-red-800'}>Recept niet gevonden</h1>
-        <p>Heb je de URL goed getypt, of heb je een ongeldige link gevolgd?</p>
-        <div className={'flex gap-4 justify-center mt-8'}>
-            <Link className={'underline hover:no-underline'} href={'/'}>Home</Link>
-            <Link className={'underline hover:no-underline'} href={'/recepten'}>Alle Recepten</Link>
-        </div>
-    </div> : <Error>{isError}</Error>)
-    if (isLoading) return (<Loader/>)
+    // if (isError) return (isError === 404 ? <div className={'text-center my-8'}>
+    //     <h1 className={'text-2xl font-serif text-red-800'}>Recept niet gevonden</h1>
+    //     <p>Heb je de URL goed getypt, of heb je een ongeldige link gevolgd?</p>
+    //     <div className={'flex gap-4 justify-center mt-8'}>
+    //         <Link className={'underline hover:no-underline'} href={'/'}>Home</Link>
+    //         <Link className={'underline hover:no-underline'} href={'/recepten'}>Alle Recepten</Link>
+    //     </div>
+    // </div> : <Error>{isError}</Error>)
+    // if (isLoading) return (<Loader/>)
 
     // TODO: Fix the weird error between having loaded the item and returning the item
     if (!recipe) return (<Loader/>)
@@ -133,5 +131,44 @@ function Recipe() {
         </>
     )
 }
+
+export async function getStaticPaths() {
+    // Call an external API endpoint to get posts
+    const res = await fetch('https://data.arendz.nl/items/recipes')
+    const posts = await res.json()
+
+    // Get the paths we want to prerender based on posts
+    // In production environments, prerender all pages
+    // (slower builds, but faster initial page load)
+    const paths = posts.data.map((post) => ({
+        params: { slug: post.slug },
+    }))
+
+    // { fallback: false } means other routes should 404
+    return { paths, fallback: false }
+}
+
+// @ts-ignore
+export const getStaticProps = (async (context) => {
+    const slug = context.params.slug;
+
+    const directus = createDirectus('https://data.arendz.nl').with(rest());
+
+    // @ts-ignore
+    const recipe = await directus
+        .request(readItems('recipes',
+            {
+                fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'categories.recipe_categories_id.*'],
+                filter: {
+                    'slug': slug
+                },
+                limit: 1
+            }))
+        .then((d) => {
+            return d[0];
+        });
+
+    return { props: {recipe: recipe }}
+})
 
 export default Recipe
