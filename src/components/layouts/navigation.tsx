@@ -9,7 +9,7 @@ const Navigation = () => {
                     <div className="flex flex-col md:flex-row justify-between items-center h-full">
                         <Link href='/' className='font-bold text-xl hover:text-red-900 duration-100 transition'>StudentenRecepten</Link>
 
-                        <ul className="text-center md:text-left grid grid-cols-3 gap-2 md:flex md:gap-y-0 md:gap-x-6 text-gray-800">
+                        <ul className="text-center gap-2 flex flex-wrap gap-y-2 justify-center gap-x-6 text-gray-800">
                             <li>
                                 <Link className={'hover:text-red-900 duration-100 transition'} href="/recepten">
                                     <p>Recepten</p>

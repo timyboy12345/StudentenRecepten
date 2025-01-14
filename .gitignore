@@ -23,6 +23,11 @@
 # production
 /build
 
+# next-sitemap
+*/robots.txt
+*/sitemap.xml
+*/sitemap-*.xml
+
 # misc
 .DS_Store
 *.pem
