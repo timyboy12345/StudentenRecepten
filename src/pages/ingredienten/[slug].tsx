@@ -1,15 +1,14 @@
-import {useIngredient, useRecipes} from "@/lib/directus";
+import {getIngredient, useRecipes} from "@/lib/directus";
 import {useRouter} from "next/router";
 import DirectusImage from "@/components/DirectusImage";
 import Error from "@/components/Error";
 import Loader from "@/components/Loader";
 import Head from "next/head";
-import Link from "next/link";
 import RecipeCard from "@/components/cards/RecipeCard";
 
-function Recipe() {
+function Recipe({ingredient}) {
     const router = useRouter()
-    const {ingredient, isError, isLoading} = useIngredient(router.query.slug)
+
     const {recipes, isError: isRecipesError, isLoading: isRecipesLoading} = useRecipes({
         'filter': {
             "ingredients": {
@@ -22,16 +21,6 @@ function Recipe() {
         }
     })
 
-    if (isError) return (isError === 404 ? <div className={'text-center my-8'}>
-        <h1 className={'text-2xl font-serif text-red-800'}>Recept niet gevonden</h1>
-        <p>Heb je de URL goed getypt, of heb je een ongeldige link gevolgd?</p>
-        <div className={'flex gap-4 justify-center mt-8'}>
-            <Link className={'underline hover:no-underline'} href={'/'}>Home</Link>
-            <Link className={'underline hover:no-underline'} href={'/recepten'}>Alle Recepten</Link>
-        </div>
-    </div> : <Error>{isError}</Error>)
-    if (isLoading) return (<Loader/>)
-
     // TODO: Fix the weird error between having loaded the item and returning the item
     if (!ingredient) return (<Loader/>)
 
@@ -42,7 +31,7 @@ function Recipe() {
     return (
         <>
             <Head>
-                <title>{ingredient.title} - Ingrediënt - StudentenRecepten</title>
+                <title>{ingredient.title + ' - Ingrediënt - StudentenRecepten'}</title>
             </Head>
 
             {ingredient.image &&
@@ -51,7 +40,7 @@ function Recipe() {
                 <h1 className='font-serif text-2xl'>{ingredient.title}</h1>
             </div>
 
-            <p dangerouslySetInnerHTML={toHtml(ingredient.content)} className='prose max-w-none'/>
+            <div dangerouslySetInnerHTML={toHtml(ingredient.content)} className='prose max-w-none'/>
 
             <h1 className='font-serif text-2xl mb-4 mt-4'>Alle Recepten met dit ingrediënt</h1>
 
@@ -60,10 +49,26 @@ function Recipe() {
             {recipes && <div className='grid grid-cols-2 gap-4 lg:grid-cols-3'>
                 {recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe}/>)}
             </div>}
-
-            {JSON.stringify(isRecipesError)}
         </>
     )
 }
+
+export async function getStaticPaths() {
+    const res = await fetch('https://data.arendz.nl/items/ingredients')
+    const posts = await res.json()
+
+    const paths = posts.data.map((post) => ({
+        params: { slug: post.slug },
+    }))
+
+    return { paths, fallback: false }
+}
+
+export const getStaticProps = (async (context) => {
+    const slug = context.params.slug;
+    const ingredient = await getIngredient(slug);
+
+    return { props: {ingredient: ingredient }}
+})
 
 export default Recipe
