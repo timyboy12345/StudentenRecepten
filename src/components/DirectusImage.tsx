@@ -22,7 +22,11 @@ export default function DirectusImage({image, tailwindHeight, width, height, cro
     }
 
     return (
-        <img alt={image.description} src={getImgUrl()}
-             className={'w-full ' + (tailwindHeight ?? 'h-36') + ' ' + tailwindObject()}/>
+        <img
+            alt={image.description}
+            className={'w-full ' + (tailwindHeight ?? 'h-36') + ' ' + tailwindObject()}
+            loading={'lazy'}
+            src={getImgUrl()}
+        />
     )
 }

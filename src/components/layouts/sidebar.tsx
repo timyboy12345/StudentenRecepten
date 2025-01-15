@@ -6,7 +6,7 @@ import Link from "next/link";
 import IngredientCard from "@/components/cards/IngredientCard";
 
 export default function Sidebar() {
-    const {categories, isError, isLoading} = useCategories();
+    const {categories, isError, isLoading} = useCategories({limit: 6});
     const {ingredients, isIngredientsError, isIngredientsLoading} = useIngredients({filter: {'featured': {'_eq': 'true'}}});
 
     return (
