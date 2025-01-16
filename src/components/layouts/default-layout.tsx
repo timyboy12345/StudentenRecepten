@@ -16,6 +16,12 @@ export default function Layout({children}: {children: any}) {
                 <link
                     rel='icon'
                     type='image/png'
+                    sizes='96x96'
+                    href='/favicon-96x96.png'
+                />
+                <link
+                    rel='icon'
+                    type='image/png'
                     sizes='32x32'
                     href='/favicon-32x32.png'
                 />
@@ -28,7 +34,7 @@ export default function Layout({children}: {children: any}) {
                 <link rel='manifest' href='/site.webmanifest'/>
                 <link
                     rel='icon'
-                    href='/safari-pinned-tab.svg'
+                    href='/favicon.svg'
                 />
                 <link
                     rel='mask-icon'
@@ -39,17 +45,13 @@ export default function Layout({children}: {children: any}) {
                 <link rel='shortcut icon' href='/favicon.ico'/>
                 <meta name='msapplication-TileColor' content='#ae150d'/>
                 <meta name='theme-color' content='#ae150d'/>
-                {/*<meta*/}
-                {/*    name='msapplication-config'*/}
-                {/*    content='/browserconfig.xml'*/}
-                {/*/>*/}
             </Head>
 
             <Navigation/>
 
             <div className='mx-4 sm:mx-8 md:container md:mx-auto mt-4 md:mt-8 mb-4'>
                 <div className='grid gap-8 md:grid-cols-3'>
-                    <main className='md:col-span-2'>{children}</main>
+                <main className='md:col-span-2'>{children}</main>
 
                     <Sidebar/>
                 </div>
