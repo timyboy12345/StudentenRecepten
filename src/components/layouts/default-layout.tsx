@@ -27,10 +27,15 @@ export default function Layout({children}: {children: any}) {
                 />
                 <link rel='manifest' href='/site.webmanifest'/>
                 <link
+                    rel='icon'
+                    href='/safari-pinned-tab.svg'
+                />
+                <link
                     rel='mask-icon'
                     href='/safari-pinned-tab.svg'
                     color='#ae150d'
                 />
+                <meta name="apple-mobile-web-app-title" content="StudentenRecepten"/>
                 <link rel='shortcut icon' href='/favicon.ico'/>
                 <meta name='msapplication-TileColor' content='#ae150d'/>
                 <meta name='theme-color' content='#ae150d'/>
