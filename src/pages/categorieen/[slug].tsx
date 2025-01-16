@@ -20,6 +20,7 @@ function CategoryPage({ category }: {category: Category}) {
 
             <h2 className='font-serif text-xl mt-4 mb-2'>Recepten in deze categorie</h2>
             <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                {/*@ts-ignore*/}
                 {category.recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe.recipes_id}/>)}
             </div>
 

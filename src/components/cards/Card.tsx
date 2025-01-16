@@ -1,7 +1,15 @@
 import Link from "next/link";
 import DirectusImage from "@/components/DirectusImage";
 
-function Card({image, title, description, link, subtitle, cropType}) {
+// @ts-ignore
+function Card({image, title, description, link, subtitle, cropType}: {
+    image?: any,
+    title?: string,
+    description?: string,
+    link?: string,
+    subtitle?: string,
+    cropType?: 'contain',
+}) {
     if (link) return (
         <Link href={link}
               className="w-full border border-gray-100 bg-white cursor-pointer hover:bg-gray-100 transition duration-100">

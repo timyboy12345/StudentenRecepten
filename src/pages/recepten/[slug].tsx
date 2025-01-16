@@ -15,13 +15,14 @@ function RecipePage({recipe}: { recipe: Recipe }) {
                 <title>{recipe.title + ' - Recept - StudentenRecepten'}</title>
             </Head>
 
-            {recipe.image && <div className={''}>
-                <DirectusImage width={843} height={384} tailwindHeight='h-96' image={recipe.image}/>
-                <div className={'text-xs mt-1 opacity-60'}>
-                    Afbeeldingen kunnen door AI zijn gegenereerd, lees er <Link
-                    className={'underline hover:no-underline'} href={'/over-ons'}>hier</Link> meer over.
+            {recipe.image &&
+                <div className={''}>
+                    <DirectusImage width={843} height={384} tailwindHeight='h-96' image={recipe.image}/>
+                    <div className={'text-xs mt-1 opacity-60'}>
+                        Afbeeldingen kunnen door AI zijn gegenereerd, onze recepten zijn dat nooit, lees er <Link
+                        className={'underline hover:no-underline'} href={'/over-ons'}>hier</Link> meer over.
+                    </div>
                 </div>
-            </div>
             }
 
             <div className='mb-4 mt-4'>
@@ -73,7 +74,7 @@ function RecipePage({recipe}: { recipe: Recipe }) {
             <div dangerouslySetInnerHTML={toHtml(recipe.content)} className='prose max-w-none'/>
 
             <div className='my-4 mb-8'>
-                <IngredientList ingredients={recipe.ingredients}/>
+                <IngredientList servings={recipe.servings} ingredients={recipe.ingredients}/>
             </div>
 
             <div className='border-l-8 border-red-800 my-4 p-4'>
@@ -91,8 +92,10 @@ function RecipePage({recipe}: { recipe: Recipe }) {
                     <div className='flex flex-row gap-2'>
                         {recipe.categories.map((category, i) => <div key={i}>
                             <Link
+                                // @ts-ignore
                                 href={'/categorieen/' + category.recipe_categories_id.slug}
                                 className={'bg-red-800 border border-red-800 text-white py-1 px-2 hover:bg-transparent hover:text-red-800 transition duration-200'}>
+                                {/*@ts-ignore*/}
                                 {category.recipe_categories_id.title}
                             </Link>
                         </div>)}

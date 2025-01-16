@@ -49,6 +49,7 @@ export default {
                     '950': '#462104',
                 },
             },
+            // @ts-ignore
             typography: (theme) => ({
                 DEFAULT: {
                     css: {

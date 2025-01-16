@@ -1,5 +1,6 @@
 import {createDirectus, readItems, rest} from '@directus/sdk';
 import useSWR from "swr";
+// @ts-ignore
 import * as hash from 'object-hash';
 import {PageNotFoundError} from "next/dist/shared/lib/utils";
 
@@ -14,6 +15,7 @@ type Author = {
 
 type Ingredient = {
     title: string;
+    description: string;
     content: string;
     slug: string;
     image: any;
@@ -23,6 +25,7 @@ type Recipe = {
     image: any;
     title: string;
     author: Author;
+    description: string;
     content: string;
     published_date: string
     slug: string;
@@ -65,13 +68,21 @@ type Category = {
 
 type Schema = {
     recipes: Recipe[];
-    global: Global;
     ingredients: Ingredient[];
+    categories: Category[];
+    global: Global;
+}
+
+type Query = {
+    filter?: any,
+    limit?: number,
+    fields?: any[],
+    sort?: string[],
 }
 
 const directus = createDirectus<Schema>('https://data.arendz.nl').with(rest());
 
-const categoriesFetcher = query => directus
+const categoriesFetcher = (query: Query) => directus
     // @ts-ignore
     .request(readItems('recipe_categories',
         {
@@ -82,7 +93,7 @@ const categoriesFetcher = query => directus
             limit: query.limit ?? -1
         }))
 
-const categoryFetcher = query => directus
+const categoryFetcher = (query: Query) => directus
     // @ts-ignore
     .request(readItems('recipe_categories',
         {
@@ -93,10 +104,11 @@ const categoryFetcher = query => directus
         }))
     .then((res) => res.length > 0 ? res[0] : Promise.reject(404))
 
-const recipesFetcher = query => directus
+const recipesFetcher = (query: Query) => directus
     // @ts-ignore
     .request(readItems('recipes',
         {
+            // @ts-ignore
             fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'categories.recipe_categories_id.*'],
             filter: {
                 ...query.filter
@@ -107,9 +119,10 @@ const recipesFetcher = query => directus
 // TODO: Disable SWRs revalidateOnFocus
 
 // @ts-ignore
-const recipeFetcher = query => directus
+const recipeFetcher = (query: Query) => directus
     .request(readItems('recipes',
         {
+            // @ts-ignore
             fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'categories.recipe_categories_id.*'],
             filter: {
                 ...query.filter,
@@ -119,12 +132,14 @@ const recipeFetcher = query => directus
     .then((res) => res.length > 0 ? res[0] : Promise.reject(404))
 
 // @ts-ignore
-const ingredientsFetcher = query =>
+const ingredientsFetcher = (query: Query) =>
     directus
         .request(readItems('ingredients',
             {
+                // @ts-ignore
                 sort: query.sort ?? [],
                 limit: query.limit ?? -1,
+                // @ts-ignore
                 fields: ['*', 'image.*'],
                 filter: {
                     ...query.filter
@@ -135,6 +150,7 @@ const ingredientsFetcher = query =>
 const ingredientFetcher = (slug) => directus
     .request(readItems('ingredients',
         {
+            // @ts-ignore
             fields: ['*', 'image.*'],
             filter: {
                 'slug': slug
@@ -144,6 +160,7 @@ const ingredientFetcher = (slug) => directus
 
 
 function useCategories(query = {}) {
+    // @ts-ignore
     const {data, error, isLoading} = useSWR<Category[]>('recipe_categories', () => categoriesFetcher(query))
 
     return {
@@ -153,7 +170,8 @@ function useCategories(query = {}) {
     }
 }
 
-function useCategory(slug) {
+function useCategory(slug: string) {
+    // @ts-ignore
     const {data, error, isLoading} = useSWR<Category>(slug, categoryFetcher)
 
     return {
@@ -174,7 +192,7 @@ function useRecipes(query = {}) {
     }
 }
 
-function useRecipe(slug) {
+function useRecipe(slug: string) {
     const {data, error, isLoading} = useSWR<Recipe>(slug, recipeFetcher)
 
     return {
@@ -194,7 +212,7 @@ function useIngredients(query = {}) {
     }
 }
 
-function useIngredient(slug) {
+function useIngredient(slug: string) {
     const {
         data,
         error,
@@ -208,9 +226,9 @@ function useIngredient(slug) {
     }
 }
 
-async function getCategory(slug) {
-    // @ts-ignore
+async function getCategory(slug: string) {
     return await directus
+        // @ts-ignore
         .request(readItems('recipe_categories',
             {
                 fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'recipes.recipes_id.*', 'recipes.recipes_id.image.*'],
@@ -223,13 +241,15 @@ async function getCategory(slug) {
         });
 }
 
-async function getIngredient(slug) {
+async function getIngredient(slug: string) {
     // @ts-ignore
     return await directus
         .request(readItems('ingredients',
             {
+                // @ts-ignore
                 fields: ['*', 'image.*'],
                 filter: {
+                    // @ts-ignore
                     'slug': slug
                 }
             }))
@@ -243,8 +263,10 @@ async function getRecipe(slug: string) {
     return await directus
         .request(readItems('recipes',
             {
+                // @ts-ignore
                 fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'categories.recipe_categories_id.*'],
                 filter: {
+                    // @ts-ignore
                     'slug': slug
                 },
                 limit: 1
@@ -254,4 +276,5 @@ async function getRecipe(slug: string) {
         });
 }
 
-export {directus, Recipe, Category, useRecipe, useRecipes, useCategories, useCategory, useIngredients, useIngredient, getCategory, getRecipe, getIngredient};
+// @ts-ignore
+export {directus, Recipe, Ingredient, Category, useRecipe, useRecipes, useCategories, useCategory, useIngredients, useIngredient, getCategory, getRecipe, getIngredient};

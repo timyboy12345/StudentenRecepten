@@ -45,6 +45,7 @@ function Index() {
                 {recipes.isLoading && <Loader/>}
 
                 {recipes.recipes && <>
+                    <h2 className={'font-serif -mb-4'}>Populaire Studentenrecepten</h2>
                     <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
                         {recipes.recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe}/>)}
                     </div>
@@ -57,6 +58,7 @@ function Index() {
                 {categories.isLoading && <Loader/>}
 
                 {categories.categories && <>
+                    <h2 className={'font-serif -mb-4'}>Populaire Categorieën</h2>
                     <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
                         {categories.categories.map((category, i) => <CategoryCard key={i} category={category}/>)}
                     </div>

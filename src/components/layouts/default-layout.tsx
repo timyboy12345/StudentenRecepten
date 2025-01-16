@@ -35,6 +35,8 @@ export default function Layout({children}: {children: any}) {
                 <link
                     rel='icon'
                     href='/favicon.svg'
+                    type='image/svg+xml'
+                    sizes='any'
                 />
                 <link
                     rel='mask-icon'

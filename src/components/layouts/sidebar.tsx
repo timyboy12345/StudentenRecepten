@@ -7,7 +7,7 @@ import IngredientCard from "@/components/cards/IngredientCard";
 
 export default function Sidebar() {
     const {categories, isError, isLoading} = useCategories({limit: 6});
-    const {ingredients, isIngredientsError, isIngredientsLoading} = useIngredients({filter: {'featured': {'_eq': 'true'}}});
+    const ingredients = useIngredients({filter: {'featured': {'_eq': 'true'}}});
 
     return (
         <div>
@@ -41,11 +41,11 @@ export default function Sidebar() {
 
             <div className='font-serif mt-4 text-lg mb-2'>Populaire Ingrediënten</div>
 
-            {isIngredientsLoading && <Loader/>}
-            {isError && <Error>{isIngredientsError}</Error>}
-            {ingredients && <div className='grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 gap-4'>
-                {ingredients.slice(0, 8).map((ingredient, i) => <IngredientCard hideDescription={true} key={i}
-                                                                                ingredient={ingredient}/>)}
+            {ingredients.isLoading && <Loader/>}
+            {ingredients.isError && <Error>{ingredients.isError}</Error>}
+            {ingredients.ingredients && <div className='grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 gap-4'>
+                {ingredients.ingredients.slice(0, 8).map((ingredient, i) =>
+                    <IngredientCard hideDescription={true} key={i} ingredient={ingredient}/>)}
             </div>}
         </div>
     )

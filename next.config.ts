@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
 
     // TODO: REMOVE THIS
     typescript: {
-        ignoreBuildErrors: true
+        // ignoreBuildErrors: true
     },
 
     // TODO: REMOVE THIS
