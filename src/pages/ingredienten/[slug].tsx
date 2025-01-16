@@ -6,7 +6,7 @@ import Loader from "@/components/Loader";
 import Head from "next/head";
 import RecipeCard from "@/components/cards/RecipeCard";
 
-function Recipe({ingredient}) {
+function IngredientPage({ingredient}:  {ingredient: any}) {
     const router = useRouter()
 
     const {recipes, isError: isRecipesError, isLoading: isRecipesLoading} = useRecipes({
@@ -35,7 +35,7 @@ function Recipe({ingredient}) {
             </Head>
 
             {ingredient.image &&
-                <DirectusImage width='850' height='360' tailwindHeight='h-64' image={ingredient.image}/>}
+                <DirectusImage width={850} height={360} tailwindHeight='h-64' image={ingredient.image}/>}
             <div className='mb-4 mt-4'>
                 <h1 className='font-serif text-2xl'>{ingredient.title}</h1>
             </div>
@@ -57,18 +57,18 @@ export async function getStaticPaths() {
     const res = await fetch('https://data.arendz.nl/items/ingredients')
     const posts = await res.json()
 
-    const paths = posts.data.map((post) => ({
-        params: { slug: post.slug },
+    const paths = posts.data.map((ingredient: any) => ({
+        params: { slug: ingredient.slug },
     }))
 
     return { paths, fallback: false }
 }
 
-export const getStaticProps = (async (context) => {
+export const getStaticProps = (async (context: any) => {
     const slug = context.params.slug;
     const ingredient = await getIngredient(slug);
 
     return { props: {ingredient: ingredient }}
 })
 
-export default Recipe
+export default IngredientPage

@@ -1,11 +1,11 @@
-export default function DirectusImage({image, tailwindHeight, width, height, cropType}) {
+export default function DirectusImage({image, tailwindHeight, width, height, cropType}: {image: any, tailwindHeight?: string, width?: number, height?: number, cropType?: 'contain'}) {
     const getImgUrl = (): string => {
         // TODO: Add file name to URL for SEO purposes
         // TODO: Serve in WEBP is possible
         const url = new URL(`https://data.arendz.nl/assets/${image.id}`);
 
-        if (width) url.searchParams.append("width", width);
-        if (height) url.searchParams.append("height", height);
+        if (width) url.searchParams.append("width", width.toString());
+        if (height) url.searchParams.append("height", height.toString());
         if (cropType) url.searchParams.append("fit", cropType);
         // url.searchParams.append("format", 'auto');
 

@@ -2,7 +2,7 @@ import Navigation from "@/components/layouts/navigation";
 import Sidebar from "@/components/layouts/sidebar";
 import Head from "next/head";
 
-export default function Layout({children}) {
+export default function Layout({children}: {children: any}) {
 
     return (
         <>
@@ -29,7 +29,7 @@ export default function Layout({children}) {
                 <link
                     rel='mask-icon'
                     href='/safari-pinned-tab.svg'
-                    color='#5bbad5'
+                    color='#ae150d'
                 />
                 <link rel='shortcut icon' href='/favicon.ico'/>
                 <meta name='msapplication-TileColor' content='#ae150d'/>

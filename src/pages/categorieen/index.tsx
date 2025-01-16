@@ -4,7 +4,7 @@ import Loader from "@/components/Loader";
 import Error from "@/components/Error";
 import Head from "next/head";
 
-function Recipes() {
+function CategoriesPage() {
     const {categories, isError, isLoading} = useCategories()
 
     if (isError) return (<Error>{isError}</Error>)
@@ -24,4 +24,4 @@ function Recipes() {
     )
 }
 
-export default Recipes
+export default CategoriesPage

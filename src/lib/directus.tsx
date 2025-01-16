@@ -71,8 +71,8 @@ type Schema = {
 
 const directus = createDirectus<Schema>('https://data.arendz.nl').with(rest());
 
-// @ts-ignore
 const categoriesFetcher = query => directus
+    // @ts-ignore
     .request(readItems('recipe_categories',
         {
             fields: ['*', 'image.*', 'steps.*', 'ingredients.*'],
@@ -82,8 +82,8 @@ const categoriesFetcher = query => directus
             limit: query.limit ?? -1
         }))
 
-// @ts-ignore
 const categoryFetcher = query => directus
+    // @ts-ignore
     .request(readItems('recipe_categories',
         {
             fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'recipes.recipes_id.*', 'recipes.recipes_id.image.*'],
@@ -93,8 +93,8 @@ const categoryFetcher = query => directus
         }))
     .then((res) => res.length > 0 ? res[0] : Promise.reject(404))
 
-// @ts-ignore
 const recipesFetcher = query => directus
+    // @ts-ignore
     .request(readItems('recipes',
         {
             fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'categories.recipe_categories_id.*'],
@@ -238,7 +238,7 @@ async function getIngredient(slug) {
         });
 }
 
-async function getRecipe(slug) {
+async function getRecipe(slug: string) {
     // @ts-ignore
     return await directus
         .request(readItems('recipes',

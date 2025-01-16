@@ -1,10 +1,10 @@
 import DirectusImage from "@/components/DirectusImage";
 import Head from "next/head";
-import {alterIngredientAmount} from "@/lib/ingredients";
 import Link from "next/link";
-import {getRecipe} from "@/lib/directus";
+import {getRecipe, Recipe} from "@/lib/directus";
+import IngredientList from "@/components/IngredientList";
 
-function Recipe({ recipe }) {
+function RecipePage({recipe}: { recipe: Recipe }) {
     function toHtml(content: string) {
         return {__html: content}
     }
@@ -15,11 +15,20 @@ function Recipe({ recipe }) {
                 <title>{recipe.title + ' - Recept - StudentenRecepten'}</title>
             </Head>
 
-            {recipe.image && <DirectusImage width='850' height='360' tailwindHeight='h-64' image={recipe.image}/>}
+            {recipe.image && <div className={''}>
+                <DirectusImage width={843} height={384} tailwindHeight='h-96' image={recipe.image}/>
+                <div className={'text-xs mt-1 opacity-60'}>
+                    Afbeeldingen kunnen door AI zijn gegenereerd, lees er <Link
+                    className={'underline hover:no-underline'} href={'/over-ons'}>hier</Link> meer over.
+                </div>
+            </div>
+            }
+
             <div className='mb-4 mt-4'>
                 <h1 className='font-serif text-2xl'>{recipe.title}</h1>
 
-                <div className='flex flex-row flex-wrap whitespace-nowrap gap-y-2 gap-x-4 text-red-800 items-center text-sm'>
+                <div
+                    className='flex flex-row flex-wrap whitespace-nowrap gap-y-2 gap-x-4 text-red-800 items-center text-sm'>
                     {recipe.servings && <div className='flex gap-1 items-center'>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                              stroke="currentColor" className="size-4">
@@ -64,29 +73,7 @@ function Recipe({ recipe }) {
             <div dangerouslySetInnerHTML={toHtml(recipe.content)} className='prose max-w-none'/>
 
             <div className='my-4 mb-8'>
-                <div className='px-4 border-l-8 border-red-800'>
-                    <h2 className='font-serif text-xl mb-2'>Ingrediënten</h2>
-
-                    {recipe.ingredients.filter((o) => !o.optional).map((ingredient, i) => <div
-                        className='whitespace-nowrap' key={i}>
-                        <div className='inline-block text-red-900 text-right min-w-16 mr-1'>
-                            {alterIngredientAmount(ingredient.unit, ingredient.amount)}</div>
-                        {ingredient.ingredient.title}
-                    </div>)}
-                </div>
-
-                {recipe.ingredients.filter((o) => o.optional).length > 0 &&
-                    <div
-                        className='px-4 border-l-8 border-red-800 border-opacity-60 opacity-60 hover:opacity-100 transition duration-100'>
-                        <h2 className='font-serif text-xl mb-2 mt-4'>Optionele Ingrediënten</h2>
-                        {recipe.ingredients.filter((o) => o.optional).map((ingredient, i) => <div
-                            className='whitespace-nowrap' key={i}>
-                            <div className='inline-block text-red-900 text-right min-w-16 mr-1'>
-                                {alterIngredientAmount(ingredient.unit, ingredient.amount)}</div>
-                            {ingredient.ingredient.title}
-                        </div>)}
-                    </div>
-                }
+                <IngredientList ingredients={recipe.ingredients}/>
             </div>
 
             <div className='border-l-8 border-red-800 my-4 p-4'>
@@ -103,14 +90,15 @@ function Recipe({ recipe }) {
                     <h2 className='font-serif text-xl mb-2'>Categorieën</h2>
                     <div className='flex flex-row gap-2'>
                         {recipe.categories.map((category, i) => <div key={i}>
-                            <Link href={'/categorieen/' + category.recipe_categories_id.slug}
-                                  className={'bg-red-800 border border-red-800 text-white py-1 px-2 hover:bg-transparent hover:text-red-800 transition duration-2   00'}>{category.recipe_categories_id.title}</Link>
+                            <Link
+                                href={'/categorieen/' + category.recipe_categories_id.slug}
+                                className={'bg-red-800 border border-red-800 text-white py-1 px-2 hover:bg-transparent hover:text-red-800 transition duration-200'}>
+                                {category.recipe_categories_id.title}
+                            </Link>
                         </div>)}
                     </div>
                 </div>
             )}
-
-            {/*{JSON.stringify(recipe)}*/}
         </>
     )
 }
@@ -119,18 +107,18 @@ export async function getStaticPaths() {
     const res = await fetch('https://data.arendz.nl/items/recipes')
     const posts = await res.json()
 
-    const paths = posts.data.map((post) => ({
-        params: { slug: post.slug },
+    const paths = posts.data.map((post: Recipe) => ({
+        params: {slug: post.slug},
     }))
 
-    return { paths, fallback: false }
+    return {paths, fallback: false}
 }
 
-export const getStaticProps = (async (context) => {
+export const getStaticProps = (async (context: any) => {
     const slug = context.params.slug;
     const recipe = await getRecipe(slug);
 
-    return { props: {recipe: recipe }}
+    return {props: {recipe: recipe}}
 })
 
-export default Recipe
+export default RecipePage

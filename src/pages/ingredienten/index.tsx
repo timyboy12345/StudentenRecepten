@@ -4,7 +4,7 @@ import Loader from "@/components/Loader";
 import Head from "next/head";
 import IngredientCard from "@/components/cards/IngredientCard";
 
-function Recipes() {
+function IngredientsPage() {
     const {ingredients, isError, isLoading} = useIngredients({sort: ['title'], filter: {'content': {'_nnull': true}}})
 
     return (
@@ -24,4 +24,4 @@ function Recipes() {
     )
 }
 
-export default Recipes
+export default IngredientsPage

@@ -1,4 +1,4 @@
-import {useRecipes} from "@/lib/directus";
+import {useCategories, useRecipes} from "@/lib/directus";
 import RecipeCard from "@/components/cards/RecipeCard";
 import Loader from "@/components/Loader";
 import Error from "@/components/Error";
@@ -6,14 +6,16 @@ import Head from "next/head";
 import {useState} from "react";
 import {useRouter} from "next/router";
 import Link from "next/link";
+import CategoryCard from "@/components/cards/CategoryCard";
 
 function Index() {
-    const {recipes, isError, isLoading} = useRecipes({limit: 6})
+    const recipes = useRecipes({limit: 6})
+    const categories = useCategories({limit: 6})
 
     const router = useRouter()
     const [query, setQuery] = useState('');
 
-    const handleSearchSubmit = (d) => {
+    const handleSearchSubmit = (d: any) => {
         d.preventDefault();
         router.push('/recepten?query=' + query);
     }
@@ -38,14 +40,31 @@ function Index() {
                 </form>
             </div>
 
-            {isError && <Error>{JSON.stringify(isError)}</Error>}
-            {isLoading && <Loader/>}
+            <div className={'grid gap-6'}>
+                {recipes.isError && <Error>{JSON.stringify(recipes.isError)}</Error>}
+                {recipes.isLoading && <Loader/>}
 
-            {recipes && <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                {recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe}/>)}
-            </div>}
+                {recipes.recipes && <>
+                    <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                        {recipes.recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe}/>)}
+                    </div>
 
-            <Link className={'underline hover:no-underline text-gray-600 float-right mt-2 text-sm block'} href={'/recepten'}>Bekijk alle Recepten</Link>
+                    <Link className={'underline hover:no-underline text-gray-600 text-right -mt-4 text-sm block'}
+                          href={'/recepten'}>Bekijk alle Recepten</Link>
+                </>}
+
+                {categories.isError && <Error>{JSON.stringify(recipes.isError)}</Error>}
+                {categories.isLoading && <Loader/>}
+
+                {categories.categories && <>
+                    <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                        {categories.categories.map((category, i) => <CategoryCard key={i} category={category}/>)}
+                    </div>
+
+                    <Link className={'underline hover:no-underline text-gray-600 text-right -mt-4 text-sm block'}
+                          href={'/categorieen'}>Bekijk alle Categorieën</Link>
+                </>}
+            </div>
         </>
     )
 }

@@ -1,10 +1,10 @@
-import {getCategory} from "@/lib/directus";
+import {Category, getCategory} from "@/lib/directus";
 import DirectusImage from "@/components/DirectusImage";
 import RecipeCard from "@/components/cards/RecipeCard";
 import Head from "next/head";
 
-function Category({ category }) {
-    function toHtml(cont) {
+function CategoryPage({ category }: {category: Category}) {
+    function toHtml(cont: string) {
         return {__html: cont}
     }
 
@@ -14,7 +14,7 @@ function Category({ category }) {
                 <title>{category.title + ' - Categorie - StudentenRecepten'}</title>
             </Head>
 
-            {category.image && <DirectusImage width='850' height='350' tailwindHeight='h-64' image={category.image}/>}
+            {category.image && <DirectusImage width={850} height={350} tailwindHeight='h-64' image={category.image}/>}
             <h1 className='font-serif text-2xl mb-2 mt-4'>{category.title}</h1>
             <div dangerouslySetInnerHTML={toHtml(category.content)} className='prose max-w-none'/>
 
@@ -32,18 +32,18 @@ export async function getStaticPaths() {
     const res = await fetch('https://data.arendz.nl/items/recipe_categories')
     const posts = await res.json()
 
-    const paths = posts.data.map((post) => ({
+    const paths = posts.data.map((post: Category) => ({
         params: { slug: post.slug },
     }))
 
     return { paths, fallback: false }
 }
 
-export const getStaticProps = (async (context) => {
+export const getStaticProps = (async (context: any) => {
     const slug = context.params.slug;
     const category = await getCategory(slug);
 
     return { props: {category: category }}
 })
 
-export default Category
+export default CategoryPage
