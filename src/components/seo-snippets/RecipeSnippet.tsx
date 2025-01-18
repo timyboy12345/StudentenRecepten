@@ -17,13 +17,12 @@ export default function RecipeSnippet({recipe}: { recipe: Recipe }) {
 
     function addRecipeLd() {
         return {
+            // TODO: Implement all images, once this is used more widely
             __html: `{
                 "@context": "https://schema.org/",
                 "@type": "Recipe",
                 "name": "${recipe.title}",
-                "image": [
-                    "https://data.arendz.nl/assets/${recipe.image.id}"
-                ],
+                "image": ${JSON.stringify(recipe.image ? [`https://data.arendz.nl/assets/${recipe.image.id}`] : [])},
                 "author": {
                     "@type": "Person",
                     "name": "Tim Arendsen"
