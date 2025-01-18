@@ -41,10 +41,16 @@ function AboutUs() {
                 </article>
                 <article>
                     <h2 className={'text-lg font-serif'}>Hoe neem ik contact op?</h2>
-                    <p className={'opacity-60'}>
+                    <p className={'opacity-60 mb-2'}>
                         Misschien heb jij wel een overheerlijk recept dat je met ons wilt delen, heb je opmerkingen over
                         een recept dat al op de site staat, of heb je een vraag. Je kan heel makkelijk contact met ons
                         opnemen, via info@studentenrecepten.com.
+                    </p>
+
+                    <p className={'opacity-60'}>
+                        Zo hebben we laatst op verzoek van een mede-student de website ook dark-mode compatible gemaakt,
+                        zodat je in een donker studentenhuis niet naar een fel wit telefoonscherm hoeft te kijken. Dat
+                        zouden meer recepten-websites moeten doen!
                     </p>
                 </article>
             </div>

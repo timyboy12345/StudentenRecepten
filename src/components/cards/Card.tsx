@@ -12,19 +12,19 @@ function Card({image, title, description, link, subtitle, cropType}: {
 }) {
     if (link) return (
         <Link href={link}
-              className="w-full border border-gray-100 bg-white cursor-pointer hover:bg-gray-100 transition duration-100">
+              className="w-full border border-gray-100 bg-white cursor-pointer hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 dark:border-gray-700 transition duration-100">
             {image && <DirectusImage width={500} height={300} cropType={cropType} image={image}/>}
 
             <div className='p-4'>
                 {subtitle && <div className='text-xs opacity-60'>{subtitle}</div>}
                 <h2 className="text-xl font-bold">{title}</h2>
-                <p className="text-gray-600">{description}</p>
+                <p className="text-gray-600 dark:text-gray-400">{description}</p>
             </div>
         </Link>
     )
 
     return (
-        <div className="w-full border border-gray-100 bg-white">
+        <div className="w-full border border-gray-100 bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700">
             {image &&
                 <img alt={image.description} src={"https://data.arendz.nl/assets/" + image.id}
                      className="object-cover object-center w-full h-36"/>
@@ -32,7 +32,7 @@ function Card({image, title, description, link, subtitle, cropType}: {
 
             <div className='p-4'>
                 <h2 className="text-xl font-bold">{title}</h2>
-                <p className="text-gray-600">{description}</p>
+                <p className="text-gray-600 dark:text-gray-400">{description}</p>
             </div>
 
             {/*{JSON.stringify(recipe)} */}

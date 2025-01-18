@@ -1,6 +1,7 @@
 import type {Config} from "tailwindcss";
 
 export default {
+    darkMode: 'media',
     content: [
         "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
         "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -53,7 +54,7 @@ export default {
             typography: (theme) => ({
                 DEFAULT: {
                     css: {
-                        color: '#333',
+                        // color: '#333',
                         a: {
                             color: theme('colors.red.800'),
                             '&:hover': {

@@ -40,7 +40,7 @@ function IngredientPage({ingredient}:  {ingredient: any}) {
                 <h1 className='font-serif text-2xl'>{ingredient.title}</h1>
             </div>
 
-            <div dangerouslySetInnerHTML={toHtml(ingredient.content)} className='prose max-w-none'/>
+            <div dangerouslySetInnerHTML={toHtml(ingredient.content)} className='prose dark:prose-invert max-w-none'/>
 
             <h1 className='font-serif text-2xl mb-4 mt-4'>Alle Recepten met dit ingrediënt</h1>
 

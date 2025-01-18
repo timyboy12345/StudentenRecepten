@@ -29,7 +29,7 @@ function RecipePage({recipe}: { recipe: Recipe }) {
                 <h1 className='font-serif text-2xl'>{recipe.title}</h1>
 
                 <div
-                    className='flex flex-row flex-wrap whitespace-nowrap gap-y-2 gap-x-4 text-red-800 items-center text-sm'>
+                    className='flex flex-row flex-wrap whitespace-nowrap gap-y-2 gap-x-4 text-red-800 dark:text-red-700 items-center text-sm'>
                     {recipe.servings && <div className='flex gap-1 items-center'>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                              stroke="currentColor" className="size-4">
@@ -71,15 +71,15 @@ function RecipePage({recipe}: { recipe: Recipe }) {
                 </div>
             </div>
 
-            <div dangerouslySetInnerHTML={toHtml(recipe.content)} className='prose max-w-none'/>
+            <div dangerouslySetInnerHTML={toHtml(recipe.content)} className='prose dark:prose-invert max-w-none'/>
 
             <div className='my-4 mb-8'>
                 <IngredientList servings={recipe.servings} ingredients={recipe.ingredients}/>
             </div>
 
-            <div className='border-l-8 border-red-800 my-4 p-4'>
+            <div className='border-l-8 border-red-800 dark:border-red-900 my-4 p-4'>
                 <h2 className='font-serif text-xl mb-2'>Stappen</h2>
-                <div className='border-red-800 my-4 flex flex-col gap-y-2'>
+                <div className='my-4 flex flex-col gap-y-2'>
                     {recipe.steps.map((r, i) => <div key={i}>
                         <span className='opacity-60'>{i + 1}.</span> {r.content}
                     </div>)}

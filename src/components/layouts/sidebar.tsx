@@ -28,14 +28,14 @@ export default function Sidebar() {
             <div className='font-serif mt-4 text-lg'>Over Ons</div>
             <div className='text-sm mb-2'>Student zijn is al moeilijk genoeg, je moet wassen, huishouden, op stap en dan
                 ook nog koken! Veel te veel gedoe natuurlijk allemaal. Daarom heb ik, <Link
-                    className={'underline hover:no-underline text-red-800'} target={'blank'}
+                    className={'underline hover:no-underline text-red-800 dark:text-red-700'} target={'blank'}
                     href={'https://arendz.nl/?utm_source=studentenrecepten&utm_medium=backlink'}>Tim</Link>, zelf al
                 bijna 8 jaar student,
                 een lijst samengesteld met de lekkerste studentenrecepten. Je zoekt zo makkelijk een goedkoop, snel en
                 lekker recept dat je vanavond nog kan maken.
             </div>
             <div className='text-sm'>De lijst met recepten wordt nog steeds aangevuld en verbeterd, dus kijk regelmatig
-                tussen <Link className={'underline hover:no-underline text-red-800'} href={'/recepten'}>alle
+                tussen <Link className={'underline hover:no-underline text-red-800 dark:text-red-700'} href={'/recepten'}>alle
                     recepten</Link> om jouw volgende favoriete recept te vinden.
             </div>
 

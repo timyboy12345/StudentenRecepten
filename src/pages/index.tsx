@@ -34,7 +34,7 @@ function Index() {
                         value={query}
                         type='text'
                         placeholder='Zoek naar recepten'
-                        className='w-full md:w-8/12 mt-4 rounded border-gray-200 focus:outline-none'
+                        className='w-full md:w-8/12 mt-4 rounded border-gray-200 dark:bg-gray-800 dark:border-gray-600 focus:outline-none'
                         onChange={e => setQuery(e.target.value)}
                     />
                 </form>
