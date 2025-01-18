@@ -6,7 +6,7 @@ const Navigation = () => {
         <>
             <div
                 className="w-full bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700 sticky top-0 z-10">
-                <div className="p-2 md:p-4">
+                <div className="p-2 py-4 md:p-4">
                     <div className="flex flex-col md:flex-row justify-between items-center h-full">
                         <Link href='/'
                               className='font-bold text-xl hover:text-red-900 dark:hover:text-gray-300 duration-100 transition'>

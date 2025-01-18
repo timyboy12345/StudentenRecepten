@@ -25,7 +25,10 @@ type Ingredient = {
 type Recipe = {
     image: DirectusFile;
     title: string;
-    author: Author;
+    user_created: string | Author;
+    date_created: string;
+    user_updated: string | Author;
+    date_updated: string;
     description: string;
     content: string;
     published_date: string
@@ -52,6 +55,7 @@ type RecipeIngredient = {
 type Step = {
     image: DirectusFile;
     content: string;
+    order: number;
 }
 
 type Category = {
@@ -205,4 +209,4 @@ async function getRecipe(slug: string) {
 }
 
 // @ts-ignore
-export {directus, Recipe, Ingredient, Category, useRecipes, useCategories, useIngredients, getCategory, getRecipe, getIngredient};
+export {directus, Recipe, RecipeIngredient, Ingredient, Step, Category, useRecipes, useCategories, useIngredients, getCategory, getRecipe, getIngredient};

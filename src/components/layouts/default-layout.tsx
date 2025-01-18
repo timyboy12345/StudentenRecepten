@@ -46,7 +46,8 @@ export default function Layout({children}: {children: any}) {
                 <meta name="apple-mobile-web-app-title" content="StudentenRecepten"/>
                 <link rel='shortcut icon' href='/favicon.ico'/>
                 <meta name='msapplication-TileColor' content='#ae150d'/>
-                <meta name='theme-color' content='#ae150d'/>
+                <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ae150d"/>
+                <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#4c0703"/>
             </Head>
 
             <Navigation/>

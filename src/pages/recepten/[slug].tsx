@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import {getRecipe, Recipe} from "@/lib/directus";
 import IngredientList from "@/components/IngredientList";
+import RecipeSnippet from "@/components/seo-snippets/RecipeSnippet";
 
 function RecipePage({recipe}: { recipe: Recipe }) {
     function toHtml(content: string) {
@@ -13,6 +14,7 @@ function RecipePage({recipe}: { recipe: Recipe }) {
         <>
             <Head>
                 <title>{recipe.title + ' - Recept - StudentenRecepten'}</title>
+                <RecipeSnippet recipe={recipe}/>
             </Head>
 
             {recipe.image &&

@@ -83,7 +83,7 @@ function RecipesPage() {
                         value={query}
                         type='text'
                         placeholder='Zoek naar recepten'
-                        className='rounded flex-grow border-gray-200  dark:bg-gray-800 dark:border-gray-600 focus:outline-none'
+                        className='rounded flex-grow border-gray-200  focus:ring-red-800 focus:border-red-800  dark:bg-gray-800 dark:border-gray-600 focus:outline-none'
                         onChange={e => setQuery(e.target.value)}
                     />
 
@@ -97,7 +97,7 @@ function RecipesPage() {
                     </button>
                 </div>
 
-                {ingredientsLoading && <div className={'h-32 w-full bg-gray-100 dark:bg-gray-700 animate-pulse'}>
+                {ingredientsLoading && <div className={'h-32 w-full bg-gray-100 dark:bg-gray-800 animate-pulse'}>
                 </div>}
                 {ingredients &&
                     <div
@@ -108,7 +108,7 @@ function RecipesPage() {
                             >
                                 <input onChange={() => selectIngredient(ing.id)}
                                        checked={selectedIngredients.includes(ing.id)} type={'checkbox'}
-                                       className={'rounded dark:bg-gray-700 dark:border-gray-600'}/>
+                                       className={'rounded dark:bg-gray-700 dark:border-gray-600 text-red-800'}/>
                                 <div className={'cursor-pointer'}
                                      onClick={() => selectIngredient(ing.id)}>{ing.title}</div>
                             </div>)}

@@ -34,7 +34,7 @@ function Index() {
                         value={query}
                         type='text'
                         placeholder='Zoek naar recepten'
-                        className='w-full md:w-8/12 mt-4 rounded border-gray-200 dark:bg-gray-800 dark:border-gray-600 focus:outline-none'
+                        className='w-full md:w-8/12 mt-4 focus:ring-red-800 focus:border-red-800 rounded border-gray-200 dark:bg-gray-800 dark:border-gray-600 focus:outline-none'
                         onChange={e => setQuery(e.target.value)}
                     />
                 </form>
@@ -50,7 +50,7 @@ function Index() {
                         {recipes.recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe}/>)}
                     </div>
 
-                    <Link className={'underline hover:no-underline text-gray-600 text-right -mt-4 text-sm block'}
+                    <Link className={'underline hover:no-underline text-gray-600 dark:text-gray-400 text-right -mt-4 text-sm block'}
                           href={'/recepten'}>Bekijk alle Recepten</Link>
                 </>}
 
@@ -63,7 +63,7 @@ function Index() {
                         {categories.categories.map((category, i) => <CategoryCard key={i} category={category}/>)}
                     </div>
 
-                    <Link className={'underline hover:no-underline text-gray-600 text-right -mt-4 text-sm block'}
+                    <Link className={'underline hover:no-underline text-gray-600 dark:text-gray-400 text-right -mt-4 text-sm block'}
                           href={'/categorieen'}>Bekijk alle Categorieën</Link>
                 </>}
             </div>

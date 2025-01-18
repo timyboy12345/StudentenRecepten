@@ -2,6 +2,7 @@ import {Category, getCategory} from "@/lib/directus";
 import DirectusImage from "@/components/DirectusImage";
 import RecipeCard from "@/components/cards/RecipeCard";
 import Head from "next/head";
+import CategoryRecipeSnippet from "@/components/seo-snippets/CategoryCarouselSnippet";
 
 function CategoryPage({ category }: {category: Category}) {
     function toHtml(cont: string) {
@@ -12,6 +13,7 @@ function CategoryPage({ category }: {category: Category}) {
         <>
             <Head>
                 <title>{category.title + ' - Categorie - StudentenRecepten'}</title>
+                <CategoryRecipeSnippet category={category}/>
             </Head>
 
             {category.image && <DirectusImage width={850} height={350} tailwindHeight='h-64' image={category.image}/>}
