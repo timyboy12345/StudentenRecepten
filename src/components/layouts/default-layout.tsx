@@ -47,7 +47,8 @@ export default function Layout({children}: {children: any}) {
                 <link rel='shortcut icon' href='/favicon.ico'/>
                 <meta name='msapplication-TileColor' content='#ae150d'/>
                 <meta name="theme-color" content="#ae150d"/>
-                <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#4c0703"/>
+                {/* TODO: Fix dark-mode theme-color, this now seems to take over all theme colors in iOS */}
+                {/*<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#4c0703"/>*/}
             </Head>
 
             <Navigation/>

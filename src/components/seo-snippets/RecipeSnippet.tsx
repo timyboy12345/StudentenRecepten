@@ -3,7 +3,7 @@ import {alterIngredientAmount} from "@/lib/ingredients";
 
 export default function RecipeSnippet({recipe}: { recipe: Recipe }) {
     function ingredient(i: RecipeIngredient) {
-        return alterIngredientAmount(i.unit, i.amount) + ' ' + i.ingredient.title;
+        return alterIngredientAmount(i).join(' ');
     }
 
     function step(i: Step) {

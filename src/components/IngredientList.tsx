@@ -22,8 +22,8 @@ function IngredientListSection({ingredients}: { ingredients: any[] }) {
                     onClick={(e) => toggleIngredient(e, ingredient.id)} key={i}>
                     <div
                         className={'inline-block text-red-900 dark:text-red-700 text-right min-w-16 mr-1'}>
-                        {alterIngredientAmount(ingredient.unit, ingredient.amount)}</div>
-                    {ingredient.ingredient.title}
+                        {alterIngredientAmount(ingredient)[0]}</div>
+                    {alterIngredientAmount(ingredient)[1]}
                 </div>
             )}
         </>

@@ -16,10 +16,12 @@ type Author = {
 type Ingredient = {
     id: string;
     title: string;
+    title_plural?: string;
     description: string;
     content: string;
     slug: string;
     image: DirectusFile;
+    parent?: Ingredient;
 }
 
 type Recipe = {
@@ -180,7 +182,7 @@ async function getIngredient(slug: string) {
         .request(readItems('ingredients',
             {
                 // @ts-ignore
-                fields: ['*', 'image.*'],
+                fields: ['*', 'image.*', 'parent.*', 'parent.parent.*'],
                 filter: {
                     // @ts-ignore
                     'slug': slug
