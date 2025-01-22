@@ -203,9 +203,9 @@ async function getRecipeCount(query?: Query) {
         // @ts-ignore
         .request(aggregate('recipes', {
             aggregate: {count: '*'},
-            query: {
-                filter: query?.filter,
-            }
+            // query: {
+            //     filter: query?.filter,
+            // }
         }))
         .then((d) => {
             return d[0].count;
