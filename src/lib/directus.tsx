@@ -1,4 +1,4 @@
-import {createDirectus, DirectusFile, readItems, rest} from '@directus/sdk';
+import {aggregate, createDirectus, DirectusFile, readItems, rest} from '@directus/sdk';
 import useSWR from "swr";
 // @ts-ignore
 import * as hash from 'object-hash';
@@ -151,7 +151,12 @@ function useRecipes(query = {}) {
 }
 
 function useIngredients(query = {}) {
-    const {data, error, isLoading, mutate} = useSWR<Ingredient[]>('ingredients_' + hash(query), () => ingredientsFetcher(query))
+    const {
+        data,
+        error,
+        isLoading,
+        mutate
+    } = useSWR<Ingredient[]>('ingredients_' + hash(query), () => ingredientsFetcher(query))
 
     return {
         ingredients: data,
@@ -193,6 +198,36 @@ async function getIngredient(slug: string) {
         });
 }
 
+async function getRecipeCount(query?: Query) {
+    return await directus
+        // @ts-ignore
+        .request(aggregate('recipes', {
+            aggregate: {count: '*'},
+            query: {
+                filter: query?.filter,
+            }
+        }))
+        .then((d) => {
+            return d[0].count;
+        });
+}
+
+async function getRecipes(query?: Query) {
+    return await directus
+        .request(readItems('recipes',
+            {
+                // @ts-ignore
+                fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'categories.recipe_categories_id.*'],
+                filter: {
+                    ...query?.filter
+                },
+                limit: query?.limit
+            }))
+        .then((d) => {
+            return d;
+        });
+}
+
 async function getRecipe(slug: string) {
     return await directus
         .request(readItems('recipes',
@@ -210,5 +245,24 @@ async function getRecipe(slug: string) {
         });
 }
 
-// @ts-ignore
-export {directus, Recipe, RecipeIngredient, Ingredient, Step, Category, useRecipes, useCategories, useIngredients, getCategory, getRecipe, getIngredient};
+export {
+    directus,
+    // @ts-ignore
+    Recipe,
+    // @ts-ignore
+    RecipeIngredient,
+    // @ts-ignore
+    Ingredient,
+    // @ts-ignore
+    Step,
+    // @ts-ignore
+    Category,
+    useRecipes,
+    useCategories,
+    useIngredients,
+    getCategory,
+    getRecipe,
+    getRecipeCount,
+    getRecipes,
+    getIngredient
+};
