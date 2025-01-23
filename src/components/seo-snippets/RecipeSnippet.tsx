@@ -6,11 +6,11 @@ export default function RecipeSnippet({recipe}: { recipe: Recipe }) {
         return alterIngredientAmount(i).join(' ');
     }
 
-    function step(i: Step) {
+    function step(i: Step, order: number) {
         return {
             "@type": "HowToStep",
             "text": i.content,
-            "url": `https://studentenrecepten.com/${recipe.slug}#step-${i.order}`,
+            "url": `https://studentenrecepten.com/${recipe.slug}#step-${i.order ?? order}`,
             // "image": "https://example.com/photos/non-alcoholic-pina-colada/step3.jpg"
         };
     }
@@ -18,6 +18,7 @@ export default function RecipeSnippet({recipe}: { recipe: Recipe }) {
     function addRecipeLd() {
         return {
             // TODO: Implement all images, once this is used more widely
+            // @ts-ignore
             __html: `{
                 "@context": "https://schema.org/",
                 "@type": "Recipe",
@@ -33,7 +34,15 @@ export default function RecipeSnippet({recipe}: { recipe: Recipe }) {
                 "recipeYield": "${recipe.servings} personen",
                 "recipeCategory": "Dinner",
                 "recipeIngredient": ${JSON.stringify(recipe.ingredients.map(ingredient))},
-                "recipeInstructions": ${JSON.stringify(recipe.steps.map((step)))}
+                "recipeInstructions": ${JSON.stringify(recipe.steps.map((s, i) => step(s, i)))},
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": ${recipe.reviews.length > 0 ? (recipe
+                .reviews
+                // @ts-ignore
+                .reduce((total, next) => total + next.stars, 0) / recipe.reviews.length) : null},
+                  "ratingCount": ${recipe.reviews.length}
+                }
             }`
         }
     }

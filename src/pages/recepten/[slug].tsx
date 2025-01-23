@@ -4,6 +4,7 @@ import Link from "next/link";
 import {getRecipe, Recipe} from "@/lib/directus";
 import IngredientList from "@/components/IngredientList";
 import RecipeSnippet from "@/components/seo-snippets/RecipeSnippet";
+import ReviewCard from "@/components/cards/ReviewCard";
 
 function RecipePage({recipe}: { recipe: Recipe }) {
     function toHtml(content: string) {
@@ -70,10 +71,21 @@ function RecipePage({recipe}: { recipe: Recipe }) {
 
                         {(recipe.cooktime ?? 0) + (recipe.oventime ?? 0)} min. totaal
                     </div>}
+                    {recipe.reviews && recipe.reviews.length > 0 && <Link href={'#reviews'} className={'flex gap-1 items-center'}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                             stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round"
+                                  d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                        </svg>
+
+                        {/* @ts-ignore */}
+                        {(recipe.reviews.reduce((total, next) => total + next.stars, 0) / recipe.reviews.length).toFixed(1)} / 5.0
+                    </Link>}
                 </div>
             </div>
 
-            <div dangerouslySetInnerHTML={toHtml(recipe.content)} className='prose dark:prose-invert max-w-none'/>
+            <div dangerouslySetInnerHTML={toHtml(recipe.content)}
+                 className='prose dark:prose-invert max-w-none'/>
 
             <div className='my-4 mb-8'>
                 <IngredientList servings={recipe.servings} ingredients={recipe.ingredients}/>
@@ -101,6 +113,19 @@ function RecipePage({recipe}: { recipe: Recipe }) {
                                 {category.recipe_categories_id.title}
                             </Link>
                         </div>)}
+                    </div>
+                </div>
+            )}
+
+            {recipe.reviews.length > 0 && (
+                <div className='my-4' id={'reviews'}>
+                    <h2 className='font-serif text-xl'>Reviews</h2>
+                    {/* @ts-ignore */}
+                    Gemiddeld: {(recipe.reviews.reduce((total, next) => total + next.stars, 0) / recipe.reviews.length).toFixed(1)} / 5.0
+
+                    <div className='grid grid-cols-2 gap-4 mt-2'>
+                        {/* @ts-ignore */}
+                        {recipe.reviews.map((review, i) => <ReviewCard review={review} key={i}/>)}
                     </div>
                 </div>
             )}

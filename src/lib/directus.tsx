@@ -45,6 +45,7 @@ type Recipe = {
     servings: number;
     cooktime: number;
     oventime: number;
+    reviews: string[] | Review[];
 }
 
 type RecipeIngredient = {
@@ -71,6 +72,14 @@ type Category = {
         recipes_id: Recipe | string;
         recipe_categories_id: Category | string;
     }[]
+}
+
+type Review = {
+    status: 'review' | 'published' | 'rejected';
+    review: string;
+    stars: number;
+    date_created: string;
+    user_created?: string;
 }
 
 type Schema = {
@@ -233,7 +242,7 @@ async function getRecipe(slug: string) {
         .request(readItems('recipes',
             {
                 // @ts-ignore
-                fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'categories.recipe_categories_id.*'],
+                fields: ['*', 'image.*', 'steps.*', 'ingredients.*', 'ingredients.ingredient.*', 'categories.recipe_categories_id.*', 'reviews.*'],
                 filter: {
                     // @ts-ignore
                     'slug': slug
@@ -255,6 +264,8 @@ export {
     Ingredient,
     // @ts-ignore
     Step,
+    // @ts-ignore
+    Review,
     // @ts-ignore
     Category,
     useRecipes,

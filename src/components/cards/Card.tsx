@@ -2,13 +2,14 @@ import Link from "next/link";
 import DirectusImage from "@/components/DirectusImage";
 
 // @ts-ignore
-function Card({image, title, description, link, subtitle, cropType}: {
+function Card({image, title, description, link, subtitle, cropType, children}: {
     image?: any,
     title?: string,
     description?: string,
     link?: string,
     subtitle?: string,
     cropType?: 'contain',
+    children?: any,
 }) {
     if (link) return (
         <Link href={link}
@@ -17,8 +18,10 @@ function Card({image, title, description, link, subtitle, cropType}: {
 
             <div className='p-4'>
                 {subtitle && <div className='text-xs opacity-60'>{subtitle}</div>}
-                <h2 className="text-xl font-bold">{title}</h2>
-                <p className="text-gray-600 dark:text-gray-400">{description}</p>
+                {title && <h2 className="text-xl font-bold">{title}</h2>}
+                {description && <p className="text-gray-600 dark:text-gray-400">{description}</p>}
+
+                {children}
             </div>
         </Link>
     )
@@ -31,8 +34,10 @@ function Card({image, title, description, link, subtitle, cropType}: {
             }
 
             <div className='p-4'>
-                <h2 className="text-xl font-bold">{title}</h2>
-                <p className="text-gray-600 dark:text-gray-400">{description}</p>
+                {title && <h2 className="text-xl font-bold">{title}</h2>}
+                {description && <p className="text-gray-600 dark:text-gray-400">{description}</p>}
+
+                {children}
             </div>
 
             {/*{JSON.stringify(recipe)} */}
