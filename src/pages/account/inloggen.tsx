@@ -1,19 +1,29 @@
 import {useState} from "react";
 import {login} from "@/lib/directus";
+import {useRouter} from "next/router";
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loginIn, setLoginIn] = useState(false);
 
+    const router = useRouter();
 
     async function handleSubmit(e: any) {
         e.preventDefault();
 
+        setLoginIn(true);
         await login(email, password)
-            .then((d) => console.log(d))
+            .then((d) => {
+                console.log(d)
+                setEmail('');
+                setPassword('');
+                router.push("/account/account")
+            })
             .catch((e) => {
                 console.error(e)
-            });
+            })
+            .then(() => setLoginIn(true));
     }
 
 
@@ -46,7 +56,8 @@ export default function Login() {
             </div>
 
             <button type={'submit'}
-                    className={'rounded bg-red-800 text-white inline-block py-2 px-4 hover:bg-red-900 transition duration-100'}>
+                    disabled={loginIn}
+                    className={'rounded bg-red-800 text-white inline-block py-2 px-4 hover:bg-red-900 transition duration-100 ' + (loginIn ? 'opacity-60' : '')}>
                 Inloggen
             </button>
         </form>

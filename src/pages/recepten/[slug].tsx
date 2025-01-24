@@ -1,14 +1,44 @@
 import DirectusImage from "@/components/DirectusImage";
 import Head from "next/head";
 import Link from "next/link";
-import {getRecipe, Recipe} from "@/lib/directus";
+import {addReview, getRecipe, Recipe} from "@/lib/directus";
 import IngredientList from "@/components/IngredientList";
 import RecipeSnippet from "@/components/seo-snippets/RecipeSnippet";
 import ReviewCard from "@/components/cards/ReviewCard";
+import {useEffect, useState} from "react";
+import Card from "@/components/cards/Card";
 
 function RecipePage({recipe}: { recipe: Recipe }) {
     function toHtml(content: string) {
         return {__html: content}
+    }
+
+    // Set the value received from the local storage to a local state
+    const [account, setAccount] = useState("")
+    const [review, setReview] = useState("")
+    const [stars, setStars] = useState("3")
+    const [submittingReview, setSubmittingReview] = useState(false)
+
+    useEffect(() => {
+        let value
+        // Get the value from local storage if it exists
+        value = localStorage.getItem("directus-data") || ""
+        setAccount(value)
+    }, [])
+
+    function submitReview(e: any) {
+        e.preventDefault();
+
+        setSubmittingReview(true);
+
+        addReview(stars, review, recipe.id)
+            .then((d) => {
+                setReview('')
+                setStars("3")
+                console.log(d)
+            })
+            .catch((e) => console.error(e))
+            .then(() => setSubmittingReview(false))
     }
 
     return (
@@ -71,16 +101,18 @@ function RecipePage({recipe}: { recipe: Recipe }) {
 
                         {(recipe.cooktime ?? 0) + (recipe.oventime ?? 0)} min. totaal
                     </div>}
-                    {recipe.reviews && recipe.reviews.length > 0 && <Link href={'#reviews'} className={'flex gap-1 items-center'}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                             stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round"
-                                  d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
-                        </svg>
+                    {recipe.reviews && recipe.reviews.length > 0 &&
+                        <Link href={'#reviews'} className={'flex gap-1 items-center'}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                                 stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round"
+                                      d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                            </svg>
 
-                        {/* @ts-ignore */}
-                        {(recipe.reviews.reduce((total, next) => total + next.stars, 0) / recipe.reviews.length).toFixed(1)} / 5.0
-                    </Link>}
+                            {/* @ts-ignore */}
+                            {(recipe.reviews.reduce((total, next) => total + next.stars, 0) / recipe.reviews.length).toFixed(1)} /
+                            5.0
+                        </Link>}
                 </div>
             </div>
 
@@ -121,7 +153,8 @@ function RecipePage({recipe}: { recipe: Recipe }) {
                 <div className='my-4' id={'reviews'}>
                     <h2 className='font-serif text-xl'>Reviews</h2>
                     {/* @ts-ignore */}
-                    Gemiddeld: {(recipe.reviews.reduce((total, next) => total + next.stars, 0) / recipe.reviews.length).toFixed(1)} / 5.0
+                    Gemiddeld: {(recipe.reviews.reduce((total, next) => total + next.stars, 0) / recipe.reviews.length).toFixed(1)} /
+                    5.0
 
                     <div className='grid grid-cols-2 gap-4 mt-2'>
                         {/* @ts-ignore */}
@@ -129,6 +162,37 @@ function RecipePage({recipe}: { recipe: Recipe }) {
                     </div>
                 </div>
             )}
+
+            {account && <Card>
+                <h2>Plaats een review</h2>
+
+                <form className={'flex flex-col gap-4'} onSubmit={submitReview}>
+                    <select
+                        value={stars}
+                        onChange={(e) => setStars(e.target.value)}
+                        className={'w-full focus:ring-red-800 focus:border-red-800 rounded border-gray-200 dark:bg-gray-800 dark:border-gray-600 focus:outline-none'}>
+                        {["1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5"].map((s) =>
+                            <option value={s} key={s}>{s} sterren</option>
+                        )}
+                    </select>
+
+                    <textarea
+                        value={review}
+                        required={true}
+                        onChange={(e) => setReview(e.target.value)}
+                        className={'w-full focus:ring-red-800 focus:border-red-800 rounded border-gray-200 dark:bg-gray-800 dark:border-gray-600 focus:outline-none'}></textarea>
+
+                    <button type={'submit'}
+                            disabled={submittingReview}
+                            className={'rounded bg-red-800 text-white inline-block py-2 px-4 hover:bg-red-900 transition duration-100 ' + (submittingReview ? 'opacity-60' : '')}>
+                        Review Toevoegen
+                    </button>
+                </form>
+            </Card>}
+
+            {!account && <div>
+                Log in om een review achter te laten
+            </div>}
         </>
     )
 }

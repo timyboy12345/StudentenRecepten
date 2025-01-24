@@ -1,7 +1,7 @@
 import {
     aggregate,
     authentication,
-    createDirectus,
+    createDirectus, createItem,
     DirectusFile,
     LoginOptions,
     readItems,
@@ -45,6 +45,7 @@ type Ingredient = {
 }
 
 type Recipe = {
+    id: string;
     image: DirectusFile;
     title: string;
     user_created: string | Author;
@@ -96,6 +97,7 @@ type Category = {
 
 type Review = {
     status: 'review' | 'published' | 'rejected';
+    recipe: string | Recipe;
     review: string;
     stars: number;
     date_created: string;
@@ -108,6 +110,7 @@ type Schema = {
     recipe_ingredients: RecipeIngredient,
     recipe_categories: Category[];
     global: Global;
+    recipe_review: Review[];
 }
 
 type Query = {
@@ -172,6 +175,7 @@ function useCategories(query = {}) {
 }
 
 function useRecipes(query = {}) {
+    // @ts-ignore
     const {data, error, isLoading, mutate} = useSWR<Recipe[]>('recipes_' + hash(query), () => recipesFetcher(query))
 
     return {
@@ -277,12 +281,33 @@ async function getRecipe(slug: string) {
         });
 }
 
+async function addReview(stars: string, review: string, recipeId: string) {
+    return await directus
+        .request(createItem('recipe_review',
+            {
+                stars: parseFloat(stars),
+                review: review,
+                recipe: recipeId
+            }))
+        .then((d) => d);
+}
+
 async function getMe(query?: Query) {
     return await directus
         .request(readUser('me'))
         .then((d) => {
             return d;
         });
+}
+
+async function logout() {
+    return await directus
+        .logout();
+}
+
+async function refreshToken() {
+    return await directus
+        .refresh();
 }
 
 async function login(email: string, password: string, options?: LoginOptions | undefined) {
@@ -321,5 +346,8 @@ export {
     getRecipes,
     getIngredient,
     login,
-    getMe
+    getMe,
+    addReview,
+    refreshToken,
+    logout
 };
