@@ -1,8 +1,28 @@
-import {aggregate, createDirectus, DirectusFile, readItems, rest} from '@directus/sdk';
+import {
+    aggregate,
+    authentication,
+    createDirectus,
+    DirectusFile,
+    LoginOptions,
+    readItems,
+    readUser,
+    rest
+} from '@directus/sdk';
 import useSWR from "swr";
 // @ts-ignore
 import * as hash from 'object-hash';
 import {PageNotFoundError} from "next/dist/shared/lib/utils";
+
+// LocalStorage class for Directus authentication
+class LocalStorage {
+    get() {
+        return typeof localStorage !== 'undefined' ? JSON.parse(localStorage.getItem("directus-data") ?? '{}') : null;
+    }
+
+    set(data: any) {
+        localStorage.setItem("directus-data", JSON.stringify(data));
+    }
+}
 
 type Global = {
     title: string;
@@ -97,7 +117,10 @@ type Query = {
     sort?: string[],
 }
 
-const directus = createDirectus<Schema>('https://data.arendz.nl').with(rest());
+const storage = new LocalStorage();
+const directus = createDirectus<Schema>('https://data.arendz.nl')
+    .with(authentication('json', {storage}))
+    .with(rest());
 
 // TODO: Disable SWRs revalidateOnFocus
 const categoriesFetcher = (query: Query) => directus
@@ -254,6 +277,27 @@ async function getRecipe(slug: string) {
         });
 }
 
+async function getMe(query?: Query) {
+    return await directus
+        .request(readUser('me'))
+        .then((d) => {
+            return d;
+        });
+}
+
+async function login(email: string, password: string, options?: LoginOptions | undefined) {
+    return await directus.login(email, password, options)
+        .then((d) => {
+            // if (d.access_token)
+            //     localStorage.setItem('user_token', d.access_token)
+            //
+            // if (d.refresh_token)
+            //     localStorage.setItem('refresh_token', d.refresh_token)
+
+            return d;
+        })
+}
+
 export {
     directus,
     // @ts-ignore
@@ -275,5 +319,7 @@ export {
     getRecipe,
     getRecipeCount,
     getRecipes,
-    getIngredient
+    getIngredient,
+    login,
+    getMe
 };
