@@ -1,13 +1,10 @@
 import {useState} from "react";
 import {login} from "@/lib/directus";
-import {useRouter} from "next/router";
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loginIn, setLoginIn] = useState(false);
-
-    const router = useRouter();
 
     async function handleSubmit(e: any) {
         e.preventDefault();
@@ -18,12 +15,16 @@ export default function Login() {
                 console.log(d)
                 setEmail('');
                 setPassword('');
-                router.push("/account/account")
+                // router.push("/account/account")
+
+                // TODO: Replace with propper state management
+                // @ts-ignore
+                window.location = '/account/account';
             })
             .catch((e) => {
                 console.error(e)
             })
-            .then(() => setLoginIn(true));
+            .then(() => setLoginIn(false));
     }
 
 

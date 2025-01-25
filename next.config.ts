@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
     // TODO: REMOVE THIS
     eslint: {
         ignoreDuringBuilds: true
+    },
+
+    images: {
+        unoptimized: true
     }
 };
 

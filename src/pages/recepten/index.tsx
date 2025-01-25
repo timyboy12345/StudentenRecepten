@@ -89,16 +89,17 @@ function RecipesPage() {
 
                     <button type={'submit'}
                             className={'px-2 bg-red-800 text-white hover:bg-red-900 transition duration-100 rounded'}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                              stroke="currentColor" className="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
+                            <path strokeLinecap="round" strokeLinejoin="round"
                                   d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
                         </svg>
                     </button>
                 </div>
 
-                {ingredientsLoading && <div className={'h-32 w-full bg-gray-100 dark:bg-gray-800 animate-pulse'}>
-                </div>}
+                {ingredientsLoading &&
+                    <div className={'h-32 w-full bg-gray-100 dark:bg-gray-800 animate-pulse'}></div>}
+                {ingredientsError && <Error>{JSON.stringify(ingredientsError)}</Error>}
                 {ingredients &&
                     <div
                         className={'flex flex-col gap-y-1 max-h-32 overflow-y-auto border dark:border-gray-700 border-gray-100 px-4 py-2 text-sm'}>

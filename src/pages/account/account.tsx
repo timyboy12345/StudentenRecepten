@@ -2,12 +2,11 @@
 
 import {getMe, logout, refreshToken} from "@/lib/directus";
 import {useEffect, useState} from "react";
-import {useRouter} from "next/router";
+import Card from "@/components/cards/Card";
 
 export default function Account() {
     // Set the value received from the local storage to a local state
     const [account, setAccount] = useState<any>()
-    const router = useRouter();
 
     useEffect(() => {
         getMe().then(setAccount);
@@ -15,7 +14,12 @@ export default function Account() {
 
     async function logOut() {
         await logout().then((d) => console.log(d)).catch((e) => console.error(e));
-        router.push('/account/inloggen');
+        // router.push('/account/inloggen');
+        // router.replace
+
+        // TODO: Replace with proper state management
+        // @ts-ignore
+        window.location = '/account/inloggen';
     }
 
     return <>
@@ -32,10 +36,12 @@ export default function Account() {
             </button>
         </div>
 
-        {account && <ul className={'rounded border border-gray-200'}>
-            {Object.keys(account).map((key) => <li className={'py-1 px-2'}>
-                {key}: {account[key]}
-            </li>)}
-        </ul>}
+        {account && <Card>
+            <ul className={'flex flex-col divide-y divide-gray-100 dark:divide-gray-700 -m-4'}>
+                {Object.keys(account).map((key) => <li key={key} className={'py-2 px-4'}>
+                    {key}: {account[key]}
+                </li>)}
+            </ul>
+        </Card>}
     </>
 }

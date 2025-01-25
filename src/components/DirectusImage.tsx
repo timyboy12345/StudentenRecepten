@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function DirectusImage({image, tailwindHeight, width, height, cropType}: {image: any, tailwindHeight?: string, width?: number, height?: number, cropType?: 'contain'}) {
     const getImgUrl = (): string => {
         // TODO: Add file name to URL for SEO purposes
@@ -22,11 +24,13 @@ export default function DirectusImage({image, tailwindHeight, width, height, cro
     }
 
     return (
-        <img
+        <Image
             alt={image.description}
             className={'w-full ' + (tailwindHeight ?? 'h-36') + ' ' + tailwindObject()}
             loading={'lazy'}
             src={getImgUrl()}
+            width={width ?? image.width}
+            height={height ?? image.height}
         />
     )
 }

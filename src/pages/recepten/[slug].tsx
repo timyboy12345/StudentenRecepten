@@ -5,8 +5,9 @@ import {addReview, getRecipe, Recipe} from "@/lib/directus";
 import IngredientList from "@/components/IngredientList";
 import RecipeSnippet from "@/components/seo-snippets/RecipeSnippet";
 import ReviewCard from "@/components/cards/ReviewCard";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Card from "@/components/cards/Card";
+import {isLoggedIn} from "@/lib/auth-checker";
 
 function RecipePage({recipe}: { recipe: Recipe }) {
     function toHtml(content: string) {
@@ -14,17 +15,9 @@ function RecipePage({recipe}: { recipe: Recipe }) {
     }
 
     // Set the value received from the local storage to a local state
-    const [account, setAccount] = useState("")
     const [review, setReview] = useState("")
     const [stars, setStars] = useState("3")
     const [submittingReview, setSubmittingReview] = useState(false)
-
-    useEffect(() => {
-        let value
-        // Get the value from local storage if it exists
-        value = localStorage.getItem("directus-data") || ""
-        setAccount(value)
-    }, [])
 
     function submitReview(e: any) {
         e.preventDefault();
@@ -163,7 +156,7 @@ function RecipePage({recipe}: { recipe: Recipe }) {
                 </div>
             )}
 
-            {account && <Card>
+            {isLoggedIn() && <Card>
                 <h2>Plaats een review</h2>
 
                 <form className={'flex flex-col gap-4'} onSubmit={submitReview}>
@@ -190,7 +183,7 @@ function RecipePage({recipe}: { recipe: Recipe }) {
                 </form>
             </Card>}
 
-            {!account && <div>
+            {!isLoggedIn() && <div>
                 Log in om een review achter te laten
             </div>}
         </>

@@ -1,16 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Link from "next/link";
+import {isLoggedIn} from "@/lib/auth-checker";
 
 const Navigation = () => {
-    // Set the value received from the local storage to a local state
-    const [account, setAccount] = useState("")
-
-    useEffect(() => {
-        let value
-        // Get the value from local storage if it exists
-        value = localStorage.getItem("directus-data") || ""
-        setAccount(value)
-    }, [])
     return (
         <>
             <div
@@ -52,13 +44,13 @@ const Navigation = () => {
                                     <p>Over Ons</p>
                                 </Link>
                             </li>
-                            {!account && <li>
+                            {!isLoggedIn() && <li>
                                 <Link className={'hover:text-red-900 duration-100 transition dark:hover:text-gray-400'}
                                       href="/account/inloggen">
                                     <p>Inloggen</p>
                                 </Link>
                             </li>}
-                            {account && <li>
+                            {isLoggedIn() && <li>
                                 <Link className={'hover:text-red-900 duration-100 transition dark:hover:text-gray-400'}
                                       href="/account/account">
                                     <p>Jouw Account</p>
