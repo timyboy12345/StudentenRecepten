@@ -149,7 +149,7 @@ function RecipePage({recipe}: { recipe: Recipe }) {
                     Gemiddeld: {(recipe.reviews.reduce((total, next) => total + next.stars, 0) / recipe.reviews.length).toFixed(1)} /
                     5.0
 
-                    <div className='grid grid-cols-2 gap-4 mt-2'>
+                    <div className='grid md:grid-cols-2 gap-4 mt-2'>
                         {/* @ts-ignore */}
                         {recipe.reviews.map((review, i) => <ReviewCard review={review} key={i}/>)}
                     </div>

@@ -6,7 +6,7 @@ export default function CategoryRecipeSnippet({category}: { category: Category }
         return {
             "@type": "ListItem",
             "position": `${position + 1}`,
-            "url": `https://studentenrecepten.com/${r.slug}`,
+            "url": `https://studentenrecepten.com/recepten/${r.slug}`,
         };
     }
 

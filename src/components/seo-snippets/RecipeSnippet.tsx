@@ -10,7 +10,7 @@ export default function RecipeSnippet({recipe}: { recipe: Recipe }) {
         return {
             "@type": "HowToStep",
             "text": i.content,
-            "url": `https://studentenrecepten.com/${recipe.slug}#step-${i.order ?? order}`,
+            "url": `https://studentenrecepten.com/recepten/${recipe.slug}#step-${i.order ?? order}`,
             // "image": "https://example.com/photos/non-alcoholic-pina-colada/step3.jpg"
         };
     }
