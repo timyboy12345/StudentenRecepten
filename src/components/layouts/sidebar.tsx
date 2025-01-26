@@ -20,7 +20,7 @@ export default function Sidebar() {
             <div className='font-serif mt-4 text-lg mb-2'>Populaire Categorieën</div>
 
             {isLoading && <Loader/>}
-            {isError && <Error>{isError}</Error>}
+            {isError && <Error>{JSON.stringify(isError)}</Error>}
             {categories && <div className='grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 gap-4'>
                 {categories.map((category, i) => <CategoryCard hideDescription={true} key={i} category={category}/>)}
             </div>}
@@ -42,7 +42,7 @@ export default function Sidebar() {
             <div className='font-serif mt-4 text-lg mb-2'>Populaire Ingrediënten</div>
 
             {ingredients.isLoading && <Loader/>}
-            {ingredients.isError && <Error>{ingredients.isError}</Error>}
+            {ingredients.isError && <Error>{JSON.stringify(ingredients.isError)}</Error>}
             {ingredients.ingredients && <div className='grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 gap-4'>
                 {ingredients.ingredients.slice(0, 8).map((ingredient, i) =>
                     <IngredientCard hideDescription={true} key={i} ingredient={ingredient}/>)}

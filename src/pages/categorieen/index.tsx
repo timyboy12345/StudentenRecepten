@@ -7,7 +7,7 @@ import Head from "next/head";
 function CategoriesPage() {
     const {categories, isError, isLoading} = useCategories()
 
-    if (isError) return (<Error>{isError}</Error>)
+    if (isError) return (<Error>{JSON.stringify(isError)}</Error>)
     if (isLoading) return (<Loader/>)
 
     return (

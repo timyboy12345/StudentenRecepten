@@ -202,6 +202,19 @@ function useIngredients(query = {}) {
     }
 }
 
+async function getCategories(query?: Query) {
+    return await directus
+        .request(readItems('recipe_categories',
+            {
+                // @ts-ignore
+                fields: ['*', 'image.*', 'recipes.recipes_id.*', 'recipes.recipes_id.image.*'],
+                filter: {
+                    ...query?.filter
+                },
+                limit: query?.limit
+            }));
+}
+
 async function getCategory(slug: string) {
     return await directus
         .request(readItems('recipe_categories',
@@ -216,6 +229,19 @@ async function getCategory(slug: string) {
         .then((d) => {
             return d.length > 0 ? d[0] : new PageNotFoundError("Categorie niet gevonden");
         });
+}
+
+async function getIngredients(query?: Query) {
+    return await directus
+        .request(readItems('ingredients',
+            {
+                // @ts-ignore
+                fields: ['*', 'image.*', 'parent.*', 'parent.parent.*'],
+                filter: {
+                    ...query?.filter
+                },
+                limit: query?.limit
+            }));
 }
 
 async function getIngredient(slug: string) {
@@ -340,10 +366,12 @@ export {
     useRecipes,
     useCategories,
     useIngredients,
+    getCategories,
     getCategory,
-    getRecipe,
     getRecipeCount,
     getRecipes,
+    getRecipe,
+    getIngredients,
     getIngredient,
     login,
     getMe,

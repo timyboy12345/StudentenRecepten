@@ -15,7 +15,7 @@ function IngredientsPage() {
 
             <h1 className='font-serif text-2xl mb-4 mt-4'>Alle Ingrediënten</h1>
 
-            {isError && <Error>{isError}</Error>}
+            {isError && <Error>{JSON.stringify(isError)}</Error>}
             {isLoading && <Loader/>}
             {ingredients && <div className='grid grid-cols-2 gap-4 lg:grid-cols-3'>
                 {ingredients.map((ingredient, i) => <IngredientCard key={i} ingredient={ingredient}/>)}

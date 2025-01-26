@@ -58,7 +58,7 @@ function IngredientPage({ingredient}: { ingredient: any }) {
 
             <h1 className='font-serif text-2xl mb-4 mt-4'>Alle Recepten met dit ingrediënt</h1>
 
-            {isRecipesError && <Error>{isRecipesError}</Error>}
+            {isRecipesError && <Error>{JSON.stringify(isRecipesError)}</Error>}
             {isRecipesLoading && <Loader/>}
             {recipes && <div className='grid grid-cols-2 gap-4 lg:grid-cols-3'>
                 {recipes.map((recipe, i) => <RecipeCard key={i} recipe={recipe}/>)}
