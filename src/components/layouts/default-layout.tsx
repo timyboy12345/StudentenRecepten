@@ -9,45 +9,18 @@ export default function Layout({children}: { children: any }) {
         <>
             <Head>
                 <title>StudentenRecepten</title>
-                <link
-                    rel='apple-touch-icon'
-                    sizes='180x180'
-                    href='/apple-touch-icon.png'
-                />
-                <link
-                    rel='icon'
-                    type='image/png'
-                    sizes='96x96'
-                    href='/favicon-96x96.png'
-                />
-                <link
-                    rel='icon'
-                    type='image/png'
-                    sizes='32x32'
-                    href='/favicon-32x32.png'
-                />
-                <link
-                    rel='icon'
-                    type='image/png'
-                    sizes='16x16'
-                    href='/favicon-16x16.png'
-                />
-                <link rel='manifest' href='/site.webmanifest'/>
-                <link
-                    rel='icon'
-                    href='/favicon.svg'
-                    type='image/svg+xml'
-                    sizes='any'
-                />
-                <link
-                    rel='mask-icon'
-                    href='/safari-pinned-tab.svg'
-                    color='#ae150d'
-                />
+                <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
+                <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+                <link rel="shortcut icon" href="/favicon.ico"/>
+                <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
                 <meta name="apple-mobile-web-app-title" content="StudentenRecepten"/>
-                <link rel='shortcut icon' href='/favicon.ico'/>
+                <link rel="manifest" href="/site.webmanifest"/>
+                <link rel='mask-icon' href='/safari-pinned-tab.svg' color='#ae150d'/>
+
+                <meta name="apple-mobile-web-app-title" content="StudentenRecepten"/>
                 <meta name='msapplication-TileColor' content='#ae150d'/>
                 <meta name="theme-color" content="#ae150d"/>
+
                 {/* TODO: Fix dark-mode theme-color, this now seems to take over all theme colors in iOS */}
                 {/*<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#4c0703"/>*/}
             </Head>
