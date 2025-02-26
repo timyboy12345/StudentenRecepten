@@ -5,7 +5,7 @@ import {addReview, getRecipe, Recipe} from "@/lib/directus";
 import IngredientList from "@/components/IngredientList";
 import RecipeSnippet from "@/components/seo-snippets/RecipeSnippet";
 import ReviewCard from "@/components/cards/ReviewCard";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Card from "@/components/cards/Card";
 import {isLoggedIn} from "@/lib/auth-checker";
 
@@ -18,6 +18,8 @@ function RecipePage({recipe}: { recipe: Recipe }) {
     const [review, setReview] = useState("")
     const [stars, setStars] = useState("3")
     const [submittingReview, setSubmittingReview] = useState(false)
+    const [supportsWakeLock, setSupportsWakelock] = useState(false)
+    const [wakeLock, setWakeLock] = useState<WakeLockSentinel | null>(null)
 
     function submitReview(e: any) {
         e.preventDefault();
@@ -32,6 +34,32 @@ function RecipePage({recipe}: { recipe: Recipe }) {
             })
             .catch((e) => console.error(e))
             .then(() => setSubmittingReview(false))
+    }
+
+    useEffect(() => {
+        setSupportsWakelock("wakeLock" in navigator)
+    }, [])
+
+    async function toggleWakeLock(event: any) {
+        if ("wakeLock" in navigator) {
+            if (event.target.checked) {
+                try {
+                    const wakeLock = await navigator.wakeLock.request("screen");
+                    setWakeLock(wakeLock)
+                } catch (err: any) {
+                    // the wake lock request fails - usually system related, such being low on battery
+                    console.log(`${err.name}, ${err.message}`);
+                    alert('Kon kookmodus niet aanzetten, probeer het later nog eens.')
+                }
+            } else if (wakeLock) {
+                wakeLock.release().then(() => {
+                    // console.log("Wakelock Released")
+                    setWakeLock(null)
+                });
+            }
+        } else {
+            console.error('Wake Lock not supported, but was requested')
+        }
     }
 
     return (
@@ -117,7 +145,17 @@ function RecipePage({recipe}: { recipe: Recipe }) {
             </div>
 
             <div className='border-l-8 border-red-800 dark:border-red-900 my-4 p-4'>
-                <h2 className='font-serif text-xl mb-2'>Stappen</h2>
+                <div className={'flex flex-row items-center gap-x-4 content-center mb-2'}>
+                    <h2 className='font-serif text-xl'>Stappen</h2>
+                    {supportsWakeLock &&
+                        <label className="inline-flex items-center cursor-pointer">
+                            <input onChange={toggleWakeLock} type="checkbox" value="" className="sr-only peer"/>
+                            <div
+                                className="relative w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-900 dark:peer-checked:bg-red-900"></div>
+                            <span className="ml-3 text-sm opacity-60">Houdt scherm aan</span>
+                        </label>
+                    }
+                </div>
                 <div className='my-4 flex flex-col gap-y-2'>
                     {recipe.steps.map((r, i) => <div key={i}>
                         <span className='opacity-60'>{i + 1}.</span> {r.content}
@@ -184,7 +222,8 @@ function RecipePage({recipe}: { recipe: Recipe }) {
             </Card>}
 
             {!isLoggedIn() && <div>
-                Log in om een review achter te laten
+                <Link href={'/account/inloggen'} className={'underline dark:text-red-700 text-red-900 hover:no-underline'}>Log in</Link> om een
+                review achter te laten
             </div>}
         </>
     )
