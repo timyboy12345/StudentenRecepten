@@ -10,11 +10,6 @@ const nextConfig: NextConfig = {
         // ignoreBuildErrors: true
     },
 
-    // TODO: REMOVE THIS
-    eslint: {
-        ignoreDuringBuilds: true
-    },
-
     images: {
         unoptimized: true
     }
