@@ -13,7 +13,7 @@ function Card({image, title, description, link, subtitle, cropType, children}: {
 }) {
     if (link) return (
         <Link href={link}
-              className="w-full border border-gray-100 bg-white cursor-pointer hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 dark:border-gray-700 transition duration-100">
+              className="w-full border border-gray-100 bg-white cursor-pointer hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 dark:border-gray-700 transition duration-100 overflow-hidden">
             {image && <DirectusImage width={500} height={300} cropType={cropType} image={image}/>}
 
             <div className='p-4'>

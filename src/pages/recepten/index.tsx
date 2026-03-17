@@ -4,18 +4,24 @@ import Error from "@/components/Error";
 import Loader from "@/components/Loader";
 import Head from "next/head";
 import {useEffect, useState} from "react";
+import {useRouter} from "next/router";
 
 function RecipesPage() {
     const [selectedIngredients, setIngredients] = useState<string[]>([]);
 
     // TODO: Fix router query search
-    // const router = useRouter()
-    // let params = new URL(document.location.toString()).searchParams;
-    const [query, setQuery] = useState('');
+    const router = useRouter();
+    const [query, setQuery] = useState(router.query.query || '');
     const [delayedQuery, setDelayedQuery] = useState('');
 
     useEffect(() => {
-        const timeOutId = setTimeout(() => setDelayedQuery(query), 500);
+        if (router.query.query) {
+            setQuery(router.query.query as string);
+        }
+    }, [router.query]);
+
+    useEffect(() => {
+        const timeOutId = setTimeout(() => setDelayedQuery(query as string), 500);
         return () => clearTimeout(timeOutId);
     }, [query]);
 

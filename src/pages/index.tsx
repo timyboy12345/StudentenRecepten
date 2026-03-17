@@ -9,7 +9,7 @@ import Link from "next/link";
 import CategoryCard from "@/components/cards/CategoryCard";
 
 function Index({recipes, recipeCount}: { recipes: Recipe[], recipeCount: number }) {
-    const categories = useCategories({limit: 6})
+    const categories = useCategories({limit: 12})
 
     const router = useRouter()
     const [query, setQuery] = useState('');
@@ -37,6 +37,13 @@ function Index({recipes, recipeCount}: { recipes: Recipe[], recipeCount: number 
                         onChange={e => setQuery(e.target.value)}
                     />
                 </form>
+
+                <div className='flex gap-2 justify-center text-sm mt-2 text-gray-600 dark:text-gray-400'>
+                    {!categories.isError && categories.categories && <>
+                        Of ga naar:
+                        {categories.categories.filter((c) => c.promoted).map((category, i) => <Link className='underline hover:no-underline' href={'/categorieen/' + category.slug} key={i}>{category.title}</Link>)}
+                    </>}
+                </div>
             </div>
 
             <div className={'grid gap-6'}>
@@ -57,7 +64,7 @@ function Index({recipes, recipeCount}: { recipes: Recipe[], recipeCount: number 
                 {categories.categories && <>
                     <h2 className={'font-serif text-lg -mb-4'}>Populaire Categorieën</h2>
                     <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                        {categories.categories.map((category, i) => <CategoryCard key={i} category={category}/>)}
+                        {categories.categories.slice(0, 6).map((category, i) => <CategoryCard key={i} category={category}/>)}
                     </div>
 
                     <Link

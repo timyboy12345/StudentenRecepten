@@ -88,6 +88,7 @@ type Category = {
     content: string;
     slug: string;
     image: DirectusFile;
+    promoted: boolean;
     recipes: {
         id: string;
         recipes_id: Recipe | string;
@@ -164,7 +165,7 @@ const ingredientsFetcher = (query: Query) =>
 
 function useCategories(query = {}) {
     // @ts-ignore
-    const {data, error, isLoading, mutate} = useSWR<Category[]>('recipe_categories', () => categoriesFetcher(query))
+    const {data, error, isLoading, mutate} = useSWR<Category[]>('recipe_categories_' + hash(query), () => categoriesFetcher(query))
 
     return {
         categories: data,
